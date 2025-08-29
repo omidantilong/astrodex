@@ -1,0 +1,21 @@
+---
+interface Props {
+  trail: { [key: string]: string }
+}
+const { trail } = Astro.props
+---
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    {
+      Object.entries(trail).map((t) => {
+        return (
+          <li>
+            <a href={t[1]}>{t[0]}</a>
+          </li>
+        )
+      })
+    }
+  </ol>
+</nav>
