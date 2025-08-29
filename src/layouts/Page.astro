@@ -1,0 +1,22 @@
+---
+interface Props {
+  title: string
+}
+
+import RootLayout from "./RootLayout.astro"
+import Head from "../components/Head.astro"
+
+const { title } = Astro.props
+---
+
+<RootLayout>
+  <Head title={title} />
+  <body>
+    <header class="header">
+      <a href="/">ASTRODEX</a>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</RootLayout>
