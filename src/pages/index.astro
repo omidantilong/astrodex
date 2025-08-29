@@ -1,16 +1,9 @@
 ---
-
+import Page from "../layouts/Page.astro"
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astrodex</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<Page title="Astrodex">
+  <ul>
+    <li><a href="/name">Pokémon by name</a></li>
+  </ul>
+</Page>
