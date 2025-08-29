@@ -1,0 +1,30 @@
+---
+import { readFile } from "node:fs/promises"
+import type { Pokemon } from "../../types"
+import Page from "../../layouts/Page.astro"
+import Breadcrumb from "../../components/Breadcrumb.astro"
+import Table from "../../components/Table.astro"
+
+export const getStaticPaths = async () => {
+  const data = await readFile("public/data.json").then((b) => JSON.parse(b.toString()))
+
+  return "abcdefghijklmnopqrstuvwxyz".split("").map((char) => ({
+    params: { char },
+    props: {
+      char,
+      pokemon: data
+        .filter((p: Pokemon) => p.name.toLowerCase().startsWith(char))
+        .sort((a: Pokemon, b: Pokemon) => (a.name > b.name ? 1 : -1)),
+    },
+  }))
+}
+
+const { char, pokemon } = Astro.props
+const charUp = char.toUpperCase()
+---
+
+<Page title={charUp + " — Astrodex"}>
+  <Breadcrumb trail={{ Name: "/name", [`${charUp} Pokémon`]: `/name/${char}` }} />
+  <h1>{charUp} Pokémon ({pokemon.length})</h1>
+  <Table data={pokemon} />
+</Page>

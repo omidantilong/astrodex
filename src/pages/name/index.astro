@@ -1,0 +1,23 @@
+---
+import Breadcrumb from "../../components/Breadcrumb.astro"
+import Page from "../../layouts/Page.astro"
+
+const letters = "abcdefghijklmnopqrstuvwxyz".split("")
+---
+
+<Page title="Astrodex">
+  <Breadcrumb trail={{ Name: "/name" }} />
+
+  <h1>Pokémon by name</h1>
+  <ul class="index">
+    {
+      letters.map((letter) => {
+        return (
+          <li>
+            <a href={`/name/${letter}`}>{letter.toUpperCase()}</a>
+          </li>
+        )
+      })
+    }
+  </ul>
+</Page>

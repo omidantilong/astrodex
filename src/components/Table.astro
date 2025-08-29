@@ -1,0 +1,54 @@
+---
+import type { Pokemon } from "../types"
+import Row from "./Row.astro"
+
+interface Props {
+  data: Pokemon[]
+}
+
+const { data } = Astro.props
+---
+
+<table class="list">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  {
+    data.map((p: Pokemon) => {
+      return <Row pokemon={p} />
+    })
+  }
+</table>
+
+<dialog closedby="any" class="lightbox"></dialog>
+
+<script>
+  const dialog = document.querySelector("dialog.lightbox")! satisfies HTMLDialogElement
+  const table = document.querySelector("table.list")! satisfies HTMLElement
+  const html = String.raw
+
+  table.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLElement && event.target.nodeName === "TD") {
+      const data = event.target.parentElement!.dataset
+
+      const { id, name } = data
+
+      dialog.innerHTML = html`<header>
+          <h2>${name}</h2>
+          <span>#${id}</span>
+        </header>
+        <figure>
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
+          />
+        </figure>`
+
+      dialog.showModal()
+    }
+  })
+</script>
