@@ -17,7 +17,6 @@ table.addEventListener("click", (event) => {
       if (id && name) {
         state.id = +id
         updateDialog(state.id, name)
-        document.body.classList.add("open")
         dialog.showModal()
       }
     } else if (event.target.nodeName === "TH") {
@@ -46,10 +45,6 @@ dialog.addEventListener("click", (event) => {
       }
     }
   }
-})
-
-dialog.addEventListener("close", () => {
-  document.body.classList.remove("open")
 })
 
 function updateDialog(id: number, name: string) {
