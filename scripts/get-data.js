@@ -40,6 +40,22 @@ const speciesQuery = gql`
   }
 `
 
+const typeQuery = gql`
+  query types {
+    types: type(order_by: { id: asc }) {
+      slug: name
+      typenames(where: { language_id: { _eq: 9 } }) {
+        id
+        name
+      }
+      typeefficacies {
+        target_type_id
+        damage_factor
+      }
+    }
+  }
+`
+
 async function getData(query) {
   return await fetch(ENDPOINT, { method: "POST", body: JSON.stringify({ query }) }).then((b) => b.json())
 }
@@ -47,6 +63,18 @@ async function getData(query) {
 async function run() {
   const pokemonData = await getData(pokemonQuery)
   const speciesData = await getData(speciesQuery)
+  const typeData = await getData(typeQuery)
+
+  const types = typeData.data.types.map((t) => {
+    t.name = t.typenames[0].name
+    t.id = t.typenames[0].id
+    t.damage = t.typeefficacies
+
+    delete t.typeefficacies
+    delete t.typenames
+
+    return t
+  })
 
   const pokemon = speciesData.data.species.map((s) => {
     const p = pokemonData.data.pokemon.find((p) => p.id === s.id)
@@ -68,6 +96,7 @@ async function run() {
     return s
   })
 
+  await writeFile("./public/types.json", JSON.stringify(types))
   await writeFile("./public/pokemon.json", JSON.stringify(pokemon))
 }
 
