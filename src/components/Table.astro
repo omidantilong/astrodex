@@ -45,8 +45,8 @@ const cols = [
               <ul class="types">
                 {pokemon.type.map((t) => (
                   <li>
-                    <span data-type={t.toLowerCase()} />
-                    {t}
+                    <figure data-type={t.toLowerCase()} />
+                    <span>{t}</span>
                   </li>
                 ))}
               </ul>
