@@ -1,0 +1,25 @@
+---
+import Page from "../../layouts/Page.astro"
+import Breadcrumb from "../../components/Breadcrumb.astro"
+import Table from "../../components/Table.astro"
+import data from "../../../public/pokemon.json"
+import types from "../../../public/types.json"
+
+export const getStaticPaths = async () => {
+  return types.map((type) => ({
+    params: { type: type.slug },
+    props: {
+      type: type,
+      pokemon: data.filter((p) => p.type.includes(type.slug)).sort((a, b) => (a.id > b.id ? 1 : -1)),
+    },
+  }))
+}
+
+const { type, pokemon } = Astro.props
+---
+
+<Page title={type.name + " Pokémon — Astrodex"}>
+  <Breadcrumb trail={{ Type: "/type", [`${type.name} Pokémon`]: `/type/${type.slug}` }} />
+  <h1>{type.name} Pokémon ({pokemon.length})</h1>
+  <Table data={pokemon} />
+</Page>

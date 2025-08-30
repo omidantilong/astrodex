@@ -1,0 +1,19 @@
+---
+import Breadcrumb from "../../components/Breadcrumb.astro"
+import Page from "../../layouts/Page.astro"
+import Links from "../../components/Links.astro"
+import types from "../../../public/types.json"
+
+const links = types
+  .sort((a, b) => (a.slug > b.slug ? 1 : -1))
+  .map((type) => ({
+    url: "/type/" + type.slug,
+    label: type.name,
+  }))
+---
+
+<Page title="Types — Astrodex">
+  <Breadcrumb trail={{ Type: "/type" }} />
+  <h1>Pokémon by type</h1>
+  <Links class="small" data={links} />
+</Page>
