@@ -3,11 +3,11 @@
   --color-blue: #3d7dca;
   --color-navy: #003a70;
 
-  --page-bg: #f3f3f3;
-
   --wrapper-padding: max(calc(calc(100% - 40rem) / 2), 1rem);
   --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
+
+  color-scheme: light dark;
 }
 
 *,
@@ -17,7 +17,7 @@
 }
 
 body {
-  background-color: var(--page-bg);
+  background-color: light-dark(#f3f3f3, #222);
   border: 0;
   padding: 0;
   margin: 0;
@@ -26,7 +26,7 @@ body {
 
 body,
 dialog {
-  color: #333;
+  color: light-dark(#333, #ddd);
 }
 
 body:has(dialog:open) {
@@ -78,10 +78,10 @@ h2 {
 }
 
 a {
-  color: var(--color-blue);
+  color: light-dark(var(--color-blue), var(--color-yellow));
   text-underline-offset: 2px;
   &:hover {
-    color: var(--color-navy);
+    color: light-dark(var(--color-navy), white);
   }
 }
 
@@ -92,10 +92,10 @@ ul.index {
   padding: 0;
   gap: 1.5rem;
   li a {
-    background: #eee;
+    background: light-dark(#eee, #333);
     display: flex;
     padding: 1rem;
-    border: 1px solid var(--color-blue);
+    border: 1px solid light-dark(var(--color-blue), #666);
     border-radius: 4px;
     text-decoration: none;
     font-size: 2rem;
@@ -106,7 +106,7 @@ ul.index {
     font-weight: bold;
   }
   li a:hover {
-    border-color: var(--color-navy);
+    border-color: light-dark(var(--color-navy), #999);
     transform: scale(1.05);
   }
   li a:active {
@@ -129,7 +129,7 @@ table.list {
   thead tr th {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid light-dark(#bbb, #444);
     &:first-child {
       width: 80px;
     }
@@ -140,7 +140,7 @@ table.list {
   } */
 
   tbody tr:hover {
-    background: white;
+    background: light-dark(white, #191919);
     cursor: pointer;
   }
 
@@ -149,7 +149,7 @@ table.list {
     transition: background 0.1s ease-out;
     position: relative;
     padding: 0.5rem 1rem;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid light-dark(#ddd, #333);
   }
 
   tbody tr td > * {
@@ -184,7 +184,7 @@ ul.types {
 
 nav.breadcrumbs {
   padding: 1rem 0 0 0;
-  color: #ccc;
+  color: light-dark(#ccc, #999);
   font-size: 0.875rem;
   ol {
     margin: 0;
@@ -232,7 +232,7 @@ dialog.lightbox {
     justify-content: space-between;
     align-items: center;
     font-size: 1.5rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid light-dark(#eee, #444);
     padding: 0 0 2rem 0;
   }
   figure {
