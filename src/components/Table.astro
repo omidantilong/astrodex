@@ -18,7 +18,7 @@ const { data } = Astro.props
     </tr>
   </thead>
   {
-    data.map((pokemon: Pokemon) => {
+    data.map((pokemon) => {
       return (
         <tr data-id={pokemon.id} data-name={pokemon.name}>
           <td>{pokemon.id}</td>

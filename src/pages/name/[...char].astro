@@ -1,22 +1,16 @@
 ---
-import { readFile } from "node:fs/promises"
-import type { Pokemon } from "../../types"
 import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
-
 import { CHARS } from "../../../constants"
+import data from "../../../public/pokemon.json"
 
 export const getStaticPaths = async () => {
-  const data = await readFile("public/pokemon.json").then((b) => JSON.parse(b.toString()))
-
   return CHARS.map((char) => ({
     params: { char },
     props: {
       char,
-      pokemon: data
-        .filter((p: Pokemon) => p.name.toLowerCase().startsWith(char))
-        .sort((a: Pokemon, b: Pokemon) => (a.name > b.name ? 1 : -1)),
+      pokemon: data.filter((p) => p.name.toLowerCase().startsWith(char)).sort((a, b) => (a.name > b.name ? 1 : -1)),
     },
   }))
 }
