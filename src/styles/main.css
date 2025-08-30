@@ -214,7 +214,7 @@ dialog.lightbox {
   outline: 0;
   transition: all 0.2s ease-out;
   opacity: 0;
-
+  overflow-x: hidden;
   &[open] {
     opacity: 1;
     transform: none;
@@ -240,6 +240,11 @@ dialog.lightbox {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  }
+  img {
+    max-width: 150%;
+    min-width: 320px;
+    aspect-ratio: 1 / 1;
   }
 }
 
