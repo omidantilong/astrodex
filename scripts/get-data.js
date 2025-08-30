@@ -48,7 +48,7 @@ async function run() {
   const pokemonData = await getData(pokemonQuery)
   const speciesData = await getData(speciesQuery)
 
-  const data = speciesData.data.species.map((s) => {
+  const pokemon = speciesData.data.species.map((s) => {
     const p = pokemonData.data.pokemon.find((p) => p.id === s.id)
 
     s.weight = p.weight
@@ -68,7 +68,7 @@ async function run() {
     return s
   })
 
-  await writeFile("./public/data.json", JSON.stringify(data))
+  await writeFile("./public/pokemon.json", JSON.stringify(pokemon))
 }
 
 run().catch((e) => console.error(e))

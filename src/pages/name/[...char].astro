@@ -8,7 +8,7 @@ import Table from "../../components/Table.astro"
 import { CHARS } from "../../../constants"
 
 export const getStaticPaths = async () => {
-  const data = await readFile("public/data.json").then((b) => JSON.parse(b.toString()))
+  const data = await readFile("public/pokemon.json").then((b) => JSON.parse(b.toString()))
 
   return CHARS.map((char) => ({
     params: { char },
