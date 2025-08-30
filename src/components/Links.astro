@@ -1,12 +1,13 @@
 ---
 interface Props {
+  class?: string
   data: { url: string; label: string }[]
 }
 
-const { data } = Astro.props
+const { data, class: className } = Astro.props
 ---
 
-<ul class="links">
+<ul class:list={["links", className]}>
   {
     data.map((link) => {
       return (

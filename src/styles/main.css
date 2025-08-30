@@ -112,6 +112,9 @@ ul.links {
   li a:active {
     transform: scale(0.95);
   }
+  &.small li a {
+    font-size: 1.25rem;
+  }
 }
 
 table.list {
