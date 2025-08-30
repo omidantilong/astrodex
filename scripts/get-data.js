@@ -44,6 +44,9 @@ const typeQuery = gql`
   query types {
     types: type(order_by: { id: asc }) {
       slug: name
+      pokemontypes {
+        pokemon_id
+      }
       typenames(where: { language_id: { _eq: 9 } }) {
         id
         name
@@ -65,16 +68,21 @@ async function run() {
   const speciesData = await getData(speciesQuery)
   const typeData = await getData(typeQuery)
 
-  const types = typeData.data.types.map((t) => {
-    t.name = t.typenames[0].name
-    t.id = t.typenames[0].id
-    t.damage = t.typeefficacies
+  const types = typeData.data.types
+    .map((t) => {
+      t.name = t.typenames[0].name
+      t.id = t.typenames[0].id
+      t.damage = t.typeefficacies
 
-    delete t.typeefficacies
-    delete t.typenames
+      const hasPokemon = !!t.pokemontypes.length
 
-    return t
-  })
+      delete t.pokemontypes
+      delete t.typeefficacies
+      delete t.typenames
+
+      return hasPokemon ? t : false
+    })
+    .filter((t) => t)
 
   const pokemon = speciesData.data.species.map((s) => {
     const p = pokemonData.data.pokemon.find((p) => p.id === s.id)
