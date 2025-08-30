@@ -22,5 +22,5 @@ const charUp = char.toUpperCase()
 <Page title={charUp + " Pokémon — Astrodex"}>
   <Breadcrumb trail={{ Name: "/name", [`${charUp} Pokémon`]: `/name/${char}` }} />
   <h1>{charUp} Pokémon ({pokemon.length})</h1>
-  <Table data={pokemon} />
+  <Table data={pokemon} sort={{ name: "asc" }} />
 </Page>

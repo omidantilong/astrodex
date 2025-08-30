@@ -134,11 +134,29 @@ table.list {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid light-dark(#bbb, #444);
+    text-underline-offset: 2px;
     &:first-child {
       width: 4em;
     }
     &:nth-child(2) {
       width: max(80px, 6vw);
+    }
+    &:after {
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+      display: inline-block;
+      transform: translateY(-1px);
+    }
+
+    &[data-sort]:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    &[data-dir="asc"]:after {
+      content: "\2191";
+    }
+    &[data-dir="desc"]:after {
+      content: "\2193";
     }
   }
 
