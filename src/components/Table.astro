@@ -24,7 +24,7 @@ const { data } = Astro.props
           <td>{pokemon.id}</td>
           <td>{pokemon.name}</td>
           <td>
-            <img src={pokemon.image.normal} />
+            <img loading="lazy" src={pokemon.image.normal} />
           </td>
           <td>
             <ul class="types">
