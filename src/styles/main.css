@@ -115,7 +115,7 @@ ul.index {
 }
 
 table.list {
-  width: 100%;
+  width: calc(100% + 2rem);
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
