@@ -23,6 +23,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: var(--font-stack);
+  min-width: 320px;
 }
 
 body,
@@ -48,7 +49,7 @@ header.header {
     font-weight: bold;
   }
   img {
-    height: 32px;
+    height: 2rem;
   }
 }
 
@@ -88,7 +89,7 @@ a {
 
 ul.links {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
   margin: 0;
   padding: 0;
   gap: 1.5rem;
@@ -141,7 +142,13 @@ table.list {
       width: 4em;
     }
     &:nth-child(2) {
-      width: max(80px, 6vw);
+      width: max(5rem, 6vw);
+    }
+    &:last-child {
+      width: 6em;
+      @media (min-width: 22.5rem) {
+        width: 8rem;
+      }
     }
     &:after {
       font-size: 0.75rem;
@@ -184,7 +191,7 @@ table.list {
   }
 
   tbody td img {
-    height: 48px;
+    height: 3rem;
   }
 }
 
@@ -195,7 +202,7 @@ ul.types {
   flex-direction: row;
   gap: 0.25rem;
   font-size: 0.75rem;
-  @media (min-width: 360px) {
+  @media (min-width: 22.5rem) {
     flex-direction: column;
   }
   li {
@@ -213,7 +220,7 @@ ul.types {
   }
   span {
     display: none;
-    @media (min-width: 360px) {
+    @media (min-width: 22.5rem) {
       display: block;
     }
   }
@@ -280,7 +287,7 @@ dialog.lightbox {
   }
   img {
     max-width: 150%;
-    min-width: 320px;
+    min-width: 20rem;
     aspect-ratio: 1 / 1;
   }
 }
