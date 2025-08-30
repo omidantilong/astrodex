@@ -5,10 +5,12 @@ import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
 
+import { CHARS } from "../../../constants"
+
 export const getStaticPaths = async () => {
   const data = await readFile("public/data.json").then((b) => JSON.parse(b.toString()))
 
-  return "abcdefghijklmnopqrstuvwxyz".split("").map((char) => ({
+  return CHARS.map((char) => ({
     params: { char },
     props: {
       char,

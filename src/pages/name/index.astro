@@ -2,8 +2,9 @@
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Page from "../../layouts/Page.astro"
 import Links from "../../components/Links.astro"
+import { CHARS } from "../../../constants"
 
-const links = "abcdefghijklmnopqrstuvwxyz".split("").map((letter) => ({
+const links = CHARS.map((letter) => ({
   url: "/name/" + letter,
   label: letter.toUpperCase(),
 }))
