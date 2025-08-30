@@ -1,0 +1,18 @@
+---
+import Breadcrumb from "../../components/Breadcrumb.astro"
+import Page from "../../layouts/Page.astro"
+import Links from "../../components/Links.astro"
+import { GENS } from "../../../constants"
+
+const links = GENS.map((gen) => ({
+  url: "/gen/" + gen,
+  label: gen.toString(),
+}))
+---
+
+<Page title="Astrodex">
+  <Breadcrumb trail={{ Generation: "/generation" }} />
+
+  <h1>Pokémon by generation</h1>
+  <Links data={links} />
+</Page>
