@@ -18,7 +18,7 @@ export const getStaticPaths = async () => {
 const { gen, pokemon } = Astro.props
 ---
 
-<Page title={gen + " — Astrodex"}>
+<Page title={"Gen " + gen + " Pokémon — Astrodex"}>
   <Breadcrumb trail={{ Generation: "/gen", [`Gen ${gen} Pokémon`]: `/gen/${gen}` }} />
   <h1>Gen {gen} Pokémon ({pokemon.length})</h1>
   <Table data={pokemon} />

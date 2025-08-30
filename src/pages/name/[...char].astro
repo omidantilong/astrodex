@@ -19,7 +19,7 @@ const { char, pokemon } = Astro.props
 const charUp = char.toUpperCase()
 ---
 
-<Page title={charUp + " — Astrodex"}>
+<Page title={charUp + " Pokémon — Astrodex"}>
   <Breadcrumb trail={{ Name: "/name", [`${charUp} Pokémon`]: `/name/${char}` }} />
   <h1>{charUp} Pokémon ({pokemon.length})</h1>
   <Table data={pokemon} />
