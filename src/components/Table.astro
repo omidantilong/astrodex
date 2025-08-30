@@ -17,30 +17,32 @@ const { data } = Astro.props
       <th>Type</th>
     </tr>
   </thead>
-  {
-    data.map((pokemon) => {
-      return (
-        <tr data-id={pokemon.id} data-name={pokemon.name}>
-          <td>{pokemon.id}</td>
-          <td>
-            <img loading="lazy" src={pokemon.image.normal} />
-          </td>
-          <td>{pokemon.name}</td>
+  <tbody>
+    {
+      data.map((pokemon) => {
+        return (
+          <tr data-id={pokemon.id} data-name={pokemon.name}>
+            <td>{pokemon.id}</td>
+            <td>
+              <img loading="lazy" src={pokemon.image.normal} />
+            </td>
+            <td>{pokemon.name}</td>
 
-          <td>
-            <ul class="types">
-              {pokemon.type.map((t) => (
-                <li>
-                  <span data-type={t.toLowerCase()} />
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </td>
-        </tr>
-      )
-    })
-  }
+            <td>
+              <ul class="types">
+                {pokemon.type.map((t) => (
+                  <li>
+                    <span data-type={t.toLowerCase()} />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </td>
+          </tr>
+        )
+      })
+    }
+  </tbody>
 </table>
 
 <dialog closedby="any" class="lightbox"></dialog>
