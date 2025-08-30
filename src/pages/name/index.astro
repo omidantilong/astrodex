@@ -1,23 +1,17 @@
 ---
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Page from "../../layouts/Page.astro"
+import Links from "../../components/Links.astro"
 
-const letters = "abcdefghijklmnopqrstuvwxyz".split("")
+const links = "abcdefghijklmnopqrstuvwxyz".split("").map((letter) => ({
+  url: "/name/" + letter,
+  label: letter.toUpperCase(),
+}))
 ---
 
 <Page title="Astrodex">
   <Breadcrumb trail={{ Name: "/name" }} />
 
   <h1>Pokémon by name</h1>
-  <ul class="index">
-    {
-      letters.map((letter) => {
-        return (
-          <li>
-            <a href={`/name/${letter}`}>{letter.toUpperCase()}</a>
-          </li>
-        )
-      })
-    }
-  </ul>
+  <Links data={links} />
 </Page>
