@@ -49,7 +49,11 @@ body:has(dialog[open]) {
   }
 }
 
-header.header {
+main {
+  padding-inline: var(--wrapper-padding);
+}
+
+header.site-header {
   padding-inline: var(--wrapper-padding);
   padding-block: 0.75rem;
   margin: auto;
@@ -64,10 +68,6 @@ header.header {
   }
 }
 
-main {
-  padding-inline: var(--wrapper-padding);
-}
-
 ul,
 ol {
   list-style: none;
@@ -77,10 +77,6 @@ ol {
 h1 {
   font-size: 1.5rem;
   padding: 2rem 0;
-
-  &:has(+ table.list) {
-    padding: 2rem 0 1rem 0;
-  }
 }
 
 h1,
@@ -95,6 +91,22 @@ a {
   text-underline-offset: 2px;
   &:hover {
     color: light-dark(var(--color-navy), white);
+  }
+}
+
+header.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  &:has(+ table.list) {
+    h1 {
+      padding: 0 0 0.5rem 0;
+    }
+    padding: 2rem 0 1rem 0;
+  }
+  span.stats {
+    color: #999;
+    display: block;
   }
 }
 
