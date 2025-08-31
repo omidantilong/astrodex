@@ -1,6 +1,7 @@
 export interface Species {
   id: number
   name: string
+  genus: string
   slug: string
   is_baby: boolean
   is_legendary: boolean

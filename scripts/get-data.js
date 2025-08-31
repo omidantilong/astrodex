@@ -48,6 +48,7 @@ const speciesQuery = gql`
 
       pokemonspeciesnames(where: { language_id: { _eq: 9 } }) {
         name
+        genus
       }
     }
   }
