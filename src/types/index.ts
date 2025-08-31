@@ -8,10 +8,12 @@ export interface Species {
   is_mythical: boolean
   generation_id: number
   family: Family[]
+  defaultForm: Pokemon
 }
 
 export interface Family {
   slug: string
+  isDefault: boolean
   forms: Pokemon[]
 }
 
@@ -25,6 +27,7 @@ export interface Pokemon {
   weight: number
   isMega: boolean
   isBattleOnly: boolean
+  isDefault: boolean
   encounters: string[]
   image: {
     normal?: string | null
@@ -37,4 +40,4 @@ export interface PokemonType {
   name: string
 }
 
-export type TableData = { id: number; name: string; forms: Pokemon[] }[]
+export type TableData = { id: number; name: string; forms: Pokemon[]; defaultForm: Pokemon }[]

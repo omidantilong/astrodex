@@ -35,23 +35,22 @@ const cols = [
   <tbody>
     {
       data.map((pokemon) => {
-        const forms = showForms ? pokemon.forms : [pokemon.forms[0]]
-
-        return forms.map((form, i) => {
+        const forms = showForms ? pokemon.forms : [pokemon.defaultForm]
+        return forms.map((form) => {
           return (
             <tr data-id={pokemon.id} data-formid={form.id} data-name={pokemon.name} data-form={pokemon.name}>
               <td data-sort="id" data-value={pokemon.id}>
                 <strong class="pokemon-name">{pokemon.id}</strong>
-                {form.id !== pokemon.id && (showForms === true || pokemon.forms.length > 1) && (
+                {/* {form.id !== pokemon.id && showForms === true && pokemon.forms.length > 1 && (
                   <span class="form-name">{form.id}</span>
-                )}
+                )} */}
               </td>
               <td>{form.image.normal && <img loading="lazy" src={`${IMAGE_PATH + form.image.normal}.png`} />}</td>
               <td data-sort="name" data-value={pokemon.name}>
                 <span class="pokemon-name">{pokemon.name}</span>
-                {form.name !== pokemon.name && (showForms === true || pokemon.forms.length > 1) && (
-                  <span class="form-name">{form.name}</span>
-                )}
+                {form.name !== pokemon.defaultForm.name &&
+                  form.name !== pokemon.name &&
+                  (showForms === true || pokemon.forms.length > 1) && <span class="form-name">{form.name}</span>}
               </td>
               <td data-sort="type">
                 <ul class="types">

@@ -11,26 +11,26 @@ export const getStaticPaths = async () => {
       .map((p) => {
         //const typeHashes: string[] = []
         const nameHashes: string[] = []
-
         return {
           id: p.id,
           name: p.name,
-          forms: p.family.flatMap((f) => {
+          defaultForm: p.defaultForm,
+          forms: p.family.flatMap((family) => {
             const imageIds: (string | boolean)[] = []
-            return f.forms.filter((f, i) => {
+            return family.forms.filter((form) => {
               const isValid =
-                f.type.includes(type.slug) &&
-                f.name.length &&
-                f.image.normal &&
-                !f.isBattleOnly &&
-                !imageIds.includes(f.image.normal) &&
+                form.type.includes(type.slug) &&
+                form.name.length &&
+                form.image.normal &&
+                !form.isBattleOnly &&
+                !imageIds.includes(form.image.normal) &&
                 //!typeHashes.includes(f.typeHash) &&
-                !nameHashes.includes(p.name + f.name) &&
-                (p.name === "Pikachu" && f.id > 10000 ? false : true)
+                !nameHashes.includes(p.name + form.name) &&
+                (p.name === "Pikachu" && form.id > 10000 ? false : true)
 
-              if (isValid && f.image.normal) {
-                imageIds.push(f.image.normal)
-                nameHashes.push(p.name + f.name)
+              if (isValid && form.image.normal) {
+                imageIds.push(form.image.normal)
+                nameHashes.push(p.name + form.name)
                 //typeHashes.push(f.typeHash)
               }
 
