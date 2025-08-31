@@ -46,7 +46,7 @@ const cols = [
                   <span class="form-name">{form.id}</span>
                 )}
               </td>
-              <td>{form.image.normal && <img loading="lazy" src={`${IMAGE_PATH}/${form.image.normal}.png`} />}</td>
+              <td>{form.image.normal && <img loading="lazy" src={`${IMAGE_PATH + form.image.normal}.png`} />}</td>
               <td data-sort="name" data-value={pokemon.name}>
                 <span class="pokemon-name">{pokemon.name}</span>
                 {form.name !== pokemon.name && (showForms === true || pokemon.forms.length > 1) && (
