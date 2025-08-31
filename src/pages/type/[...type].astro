@@ -2,24 +2,71 @@
 import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
-import data from "../../../public/pokemon.json"
-import types from "../../../public/types.json"
+import data from "../../data/data.json"
+import types from "../../data/types.json"
 
 export const getStaticPaths = async () => {
-  return types.map((type) => ({
-    params: { type: type.slug },
-    props: {
-      type: type,
-      pokemon: data.filter((p) => p.type.includes(type.slug)).sort((a, b) => (a.id > b.id ? 1 : -1)),
-    },
-  }))
+  const paths = types.map((type) => {
+    const pokemon = data
+      .map((p) => {
+        //const typeHashes: string[] = []
+        const nameHashes: string[] = []
+
+        return {
+          id: p.id,
+          name: p.name,
+          forms: p.family.flatMap((f) => {
+            const imageIds: (string | boolean)[] = []
+            return f.forms.filter((f, i) => {
+              const isValid =
+                f.type.includes(type.slug) &&
+                f.name.length &&
+                f.image.normal &&
+                !f.isBattleOnly &&
+                !imageIds.includes(f.image.normal) &&
+                //!typeHashes.includes(f.typeHash) &&
+                !nameHashes.includes(p.name + f.name) &&
+                (p.name === "Pikachu" && f.id > 10000 ? false : true)
+
+              if (isValid && f.image.normal) {
+                imageIds.push(f.image.normal)
+                nameHashes.push(p.name + f.name)
+                //typeHashes.push(f.typeHash)
+              }
+
+              return isValid
+            })
+          }),
+        }
+      })
+      .filter((p) => p.forms.length)
+      .sort((a, b) => (a.id > b.id ? 1 : -1))
+
+    return {
+      params: { type: type.slug },
+      props: {
+        type,
+        pokemon,
+        stats: {
+          pokemon: pokemon.length,
+          forms: pokemon.reduce((acc, p) => (acc += p.forms.length - 1), 0),
+        },
+      },
+    }
+  })
+
+  return paths
 }
 
-const { type, pokemon } = Astro.props
+const { type, pokemon, stats } = Astro.props
 ---
 
 <Page title={type.name + " Pokémon — Astrodex"}>
   <Breadcrumb trail={{ Type: "/type", [`${type.name} Pokémon`]: `/type/${type.slug}` }} />
-  <h1>{type.name} Pokémon ({pokemon.length})</h1>
-  <Table data={pokemon} sort={{ id: "asc" }} />
+  <header class="page-header">
+    <h1>{type.name} Pokémon</h1>
+    {/*<span class="stats">{stats.pokemon} Species / {stats.pokemon + stats.forms} Pokémon</span>*/}
+    <span class="stats">{stats.pokemon + stats.forms} Pokémon</span>
+  </header>
+  <Table data={pokemon} sort={{ id: "asc" }} showForms={true} />
 </Page>

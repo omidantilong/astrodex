@@ -2,7 +2,7 @@
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Page from "../../layouts/Page.astro"
 import Links from "../../components/Links.astro"
-import types from "../../../public/types.json"
+import types from "../../data/types.json"
 
 const links = types
   .sort((a, b) => (a.slug > b.slug ? 1 : -1))

@@ -1,12 +1,13 @@
 ---
-import type { Pokemon } from "../types"
-
+import type { TableData } from "../types"
+import { IMAGE_PATH } from "../../constants"
 interface Props {
-  data: Pokemon[]
+  data: TableData
   sort?: { [key: string]: "asc" | "desc" }
+  showForms?: boolean
 }
 
-const { data, sort } = Astro.props
+const { data, sort, showForms } = Astro.props
 
 const cols = [
   { label: "#", sort: "id", type: "number" },
@@ -34,25 +35,37 @@ const cols = [
   <tbody>
     {
       data.map((pokemon) => {
-        return (
-          <tr data-id={pokemon.id} data-name={pokemon.name}>
-            <td data-sort="id">{pokemon.id}</td>
-            <td>
-              <img loading="lazy" src={pokemon.image.normal} />
-            </td>
-            <td data-sort="name">{pokemon.name}</td>
-            <td data-sort="type">
-              <ul class="types">
-                {pokemon.type.map((t) => (
-                  <li>
-                    <figure data-type={t.toLowerCase()} />
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </td>
-          </tr>
-        )
+        const forms = showForms ? pokemon.forms : [pokemon.forms[0]]
+
+        return forms.map((form, i) => {
+          return (
+            <tr data-id={pokemon.id} data-formid={form.id} data-name={pokemon.name} data-form={pokemon.name}>
+              <td data-sort="id" data-value={pokemon.id}>
+                <strong class="pokemon-name">{pokemon.id}</strong>
+                {form.id !== pokemon.id && (showForms === true || pokemon.forms.length > 1) && (
+                  <span class="form-name">{form.id}</span>
+                )}
+              </td>
+              <td>{form.image.normal && <img loading="lazy" src={`${IMAGE_PATH}/${form.image.normal}.png`} />}</td>
+              <td data-sort="name" data-value={pokemon.name}>
+                <span class="pokemon-name">{pokemon.name}</span>
+                {form.name !== pokemon.name && (showForms === true || pokemon.forms.length > 1) && (
+                  <span class="form-name">{form.name}</span>
+                )}
+              </td>
+              <td data-sort="type">
+                <ul class="types">
+                  {form.type.map((t) => (
+                    <li>
+                      <figure data-type={t.toLowerCase()} />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+          )
+        })
       })
     }
   </tbody>

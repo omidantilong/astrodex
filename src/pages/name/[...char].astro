@@ -3,16 +3,32 @@ import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
 import { CHARS } from "../../../constants"
-import data from "../../../public/pokemon.json"
+import data from "../../data/data.json"
 
 export const getStaticPaths = async () => {
-  return CHARS.map((char) => ({
+  const paths = CHARS.map((char) => ({
     params: { char },
     props: {
       char,
-      pokemon: data.filter((p) => p.name.toLowerCase().startsWith(char)).sort((a, b) => (a.name > b.name ? 1 : -1)),
+      pokemon: data
+        .filter((p) => p.name.toLowerCase().startsWith(char))
+        .map((p) => {
+          return {
+            id: p.id,
+            name: p.name,
+            forms: [
+              {
+                ...p.family[0].forms[0],
+                name: p.name,
+              },
+            ],
+          }
+        })
+        .sort((a, b) => (a.name > b.name ? 1 : -1)),
     },
   }))
+
+  return paths
 }
 
 const { char, pokemon } = Astro.props
@@ -21,6 +37,9 @@ const charUp = char.toUpperCase()
 
 <Page title={charUp + " Pokémon — Astrodex"}>
   <Breadcrumb trail={{ Name: "/name", [`${charUp} Pokémon`]: `/name/${char}` }} />
-  <h1>{charUp} Pokémon ({pokemon.length})</h1>
+  <header class="page-header">
+    <h1>{charUp} Pokémon</h1>
+    <span class="stats">{pokemon.length} Pokémon</span>
+  </header>
   <Table data={pokemon} sort={{ name: "asc" }} />
 </Page>

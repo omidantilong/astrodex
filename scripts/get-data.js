@@ -1,28 +1,9 @@
 import { writeFile } from "node:fs/promises"
+import { basename } from "node:path"
 
 const ENDPOINT = "https://graphql.pokeapi.co/v1beta2"
 
 const gql = String.raw
-
-const pokemonQuery = gql`
-  query pokemonQuery {
-    pokemon: pokemon(order_by: { id: asc }) {
-      name
-      id
-      height
-      weight
-      species: pokemon_species_id
-      pokemonsprites {
-        sprites
-      }
-      types: pokemontypes {
-        type {
-          name
-        }
-      }
-    }
-  }
-`
 
 const speciesQuery = gql`
   query species {
@@ -33,6 +14,38 @@ const speciesQuery = gql`
       is_baby
       is_mythical
       generation_id
+      pokemons {
+        slug: name
+        height
+        weight
+        pokemonforms {
+          slug: name
+          id
+          is_mega
+          is_battle_only
+          pokemonformnames(where: { language_id: { _eq: 9 } }) {
+            name
+          }
+          pokemon {
+            height
+            weight
+            encounters {
+              version {
+                name
+              }
+            }
+            pokemonsprites {
+              sprites
+            }
+            pokemontypes {
+              type {
+                name
+              }
+            }
+          }
+        }
+      }
+
       pokemonspeciesnames(where: { language_id: { _eq: 9 } }) {
         name
       }
@@ -63,12 +76,9 @@ async function getData(query) {
   return await fetch(ENDPOINT, { method: "POST", body: JSON.stringify({ query }) }).then((b) => b.json())
 }
 
-async function run() {
-  const pokemonData = await getData(pokemonQuery)
-  const speciesData = await getData(speciesQuery)
-  const typeData = await getData(typeQuery)
-
-  const types = typeData.data.types
+async function getTypes(query) {
+  const typeData = await getData(query)
+  return typeData.data.types
     .map((t) => {
       t.name = t.typenames[0].name
       t.id = t.typenames[0].id
@@ -83,29 +93,62 @@ async function run() {
       return hasPokemon ? t : false
     })
     .filter((t) => t)
+}
 
-  const pokemon = speciesData.data.species.map((s) => {
-    const p = pokemonData.data.pokemon.find((p) => p.id === s.id)
+async function run() {
+  const speciesData = await getData(speciesQuery)
 
-    s.weight = p.weight
-    s.height = p.height
+  const data = speciesData.data.species.map((species) => {
+    species.name = species.pokemonspeciesnames[0].name
+    species.family = species.pokemons.map((p) => {
+      return {
+        slug: p.slug,
+        forms: p.pokemonforms.map((form) => {
+          const artwork = {
+            normal: form.pokemon.pokemonsprites[0].sprites.other["official-artwork"].front_default,
+            shiny: form.pokemon.pokemonsprites[0].sprites.other["official-artwork"].front_shiny,
+          }
 
-    s.name = s.pokemonspeciesnames[0].name
+          const image = {
+            normal: artwork.normal ? basename(artwork.normal).replace(".png", "") : null,
+            shiny: artwork.shiny ? basename(artwork.shiny).replace(".png", "") : null,
+          }
 
-    s.image = {
-      normal: p.pokemonsprites[0].sprites.other["official-artwork"].front_default,
-      shiny: p.pokemonsprites[0].sprites.other["official-artwork"].front_shiny,
-    }
+          const type = form.pokemon.pokemontypes.map((t) => t.type.name)
+          return {
+            slug: form.slug,
+            name: form.pokemonformnames[0]?.name ?? species.name,
+            id: form.id,
+            //imageId: image.normal ? basename(image.normal).replace(".png", "") : false,
+            isMega: form.is_mega,
+            isBattleOnly: form.is_battle_only,
+            height: form.pokemon.height,
+            weight: form.pokemon.weight,
+            type,
+            typeHash: type.join("-"),
+            encounters: Array.from(new Set(form.pokemon.encounters.map((e) => e.version.name))),
+            image,
+          }
+        }),
+      }
+    })
 
-    s.type = p.types.map((t) => t.type.name)
+    delete species.pokemons
+    delete species.pokemonspeciesnames
 
-    delete s.pokemonspeciesnames
-
-    return s
+    return species
   })
 
-  await writeFile("./public/types.json", JSON.stringify(types))
-  await writeFile("./public/pokemon.json", JSON.stringify(pokemon))
+  const types = await getTypes(typeQuery)
+
+  // await writeFile("./public/types.json", JSON.stringify(types))
+  // await writeFile("./public/data.json", JSON.stringify(data))
+
+  if (!existsSync("./src/data")) {
+    await mkdir("./src/data")
+  }
+  await writeFile("./src/data/types.json", JSON.stringify(types))
+  await writeFile("./src/data/data.json", JSON.stringify(data))
 }
 
 run().catch((e) => console.error(e))

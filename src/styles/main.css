@@ -192,10 +192,6 @@ table.list {
     }
   }
 
-  /* tbody:hover > tr td {
-    opacity: 0.6;
-  } */
-
   tbody tr:hover {
     background: light-dark(white, #191919);
     cursor: pointer;
@@ -215,6 +211,14 @@ table.list {
 
   tbody td img {
     height: 3rem;
+  }
+
+  .pokemon-name {
+    display: block;
+  }
+  .form-name {
+    font-size: 0.75rem;
+    color: #999;
   }
 }
 

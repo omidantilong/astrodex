@@ -2,17 +2,38 @@
 import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
-import data from "../../../public/pokemon.json"
+import data from "../../data/data.json"
 import { GENS } from "../../../constants"
 
 export const getStaticPaths = async () => {
-  return GENS.map((gen) => ({
+  const paths = GENS.map((gen) => ({
     params: { gen },
     props: {
       gen,
-      pokemon: data.filter((p) => p.generation_id === gen).sort((a, b) => (a.id > b.id ? 1 : -1)),
+      pokemon: data
+        .filter((p) => p.generation_id === gen)
+        .map((p) => {
+          return {
+            id: p.id,
+            name: p.name,
+            forms: p.family
+              .map((f) => {
+                return {
+                  ...f.forms[0],
+                  // name: p.name,
+                }
+              })
+              .filter((f) => {
+                if (p.name === "Pikachu" && f.id > 10000) return false
+                return !f.isBattleOnly && f.image.normal && f.name
+              }),
+          }
+        })
+        .sort((a, b) => (a.id > b.id ? 1 : -1)),
     },
   }))
+
+  return paths
 }
 
 const { gen, pokemon } = Astro.props
@@ -20,6 +41,9 @@ const { gen, pokemon } = Astro.props
 
 <Page title={"Gen " + gen + " Pokémon — Astrodex"}>
   <Breadcrumb trail={{ Generation: "/gen", [`Gen ${gen} Pokémon`]: `/gen/${gen}` }} />
-  <h1>Gen {gen} Pokémon ({pokemon.length})</h1>
-  <Table data={pokemon} sort={{ id: "asc" }} />
+  <header class="page-header">
+    <h1>Gen {gen} Pokémon</h1>
+    <span class="stats">{pokemon.length} Pokémon</span>
+  </header>
+  <Table data={pokemon} sort={{ id: "asc" }} showForms={true} />
 </Page>
