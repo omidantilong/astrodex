@@ -20,4 +20,4 @@ jobs:
       - name: Sync
         run: |
           sudo apt-get install sshpass
-          rsync --stats --delete -rpo --rsh="sshpass -p ${{ secrets.HOST_PASS }} ssh -o StrictHostKeyChecking=no -l ${{ secrets.HOST_USER }}" dist/ ${{ secrets.HOST_PATH }}
+          rsync --stats --delete -rpot --rsh="sshpass -p ${{ secrets.HOST_PASS }} ssh -o StrictHostKeyChecking=no -l ${{ secrets.HOST_USER }}" dist/ ${{ secrets.HOST_PATH }}
