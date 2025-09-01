@@ -81,16 +81,32 @@ const cols = [
 <script>
   import type { Pokemon, Species } from "../types"
 
+  async function getKeys(): Promise<{ remoteKey: string; localKey: string; isStale: boolean }> {
+    const remoteKey = await fetch("/meta.json")
+      .then((b) => b.json())
+      .then((d) => d.key)
+
+    const localKey = String(localStorage.getItem("astrodex.key"))
+
+    return { remoteKey, localKey, isStale: remoteKey !== localKey }
+  }
+
   async function getData(): Promise<Species[] | null> {
-    const data =
-      localStorage.getItem("astrodex.data") ??
-      (await fetch("/data/data.json").then(async (b) => {
+    const { remoteKey, isStale } = await getKeys()
+
+    if (isStale || !localStorage.hasOwnProperty("astrodex.data")) {
+      console.log("loading fresh data")
+      const data = await fetch("/data/data.json", { cache: "no-cache" }).then(async (b) => {
         const d = await b.text()
         localStorage.setItem("astrodex.data", d)
+        localStorage.setItem("astrodex.key", remoteKey)
         return d
-      }))
-
-    return data ? JSON.parse(data) : null
+      })
+      return JSON.parse(data)
+    } else {
+      console.log("using cached data")
+      return JSON.parse(localStorage.getItem("astrodex.data") ?? "")
+    }
   }
 
   const dialog = document.querySelector("dialog.lightbox")! satisfies HTMLDialogElement

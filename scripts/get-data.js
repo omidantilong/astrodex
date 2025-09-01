@@ -2,6 +2,7 @@ import { existsSync } from "node:fs"
 import { mkdir, writeFile } from "node:fs/promises"
 import { basename } from "node:path"
 import { parse } from "yaml"
+import { randomUUID } from "node:crypto"
 
 const PDB_DATA = "https://raw.githubusercontent.com/pokemondb/database/refs/heads/master/data/pokemon-forms.yaml"
 const ENDPOINT = "https://graphql.pokeapi.co/v1beta2"
@@ -188,7 +189,12 @@ async function run() {
 
   const types = await getTypes(typeQuery)
 
+  const meta = {
+    key: randomUUID().split("-")[0],
+  }
+
   //await writeFile("./public/data/pdb.json", JSON.stringify(pdb))
+  await writeFile("./public/meta.json", JSON.stringify(meta))
   await writeFile("./public/data/types.json", JSON.stringify(types))
   await writeFile("./public/data/data.json", JSON.stringify(data))
 }
