@@ -136,10 +136,6 @@ async function run() {
   const data = speciesData.data.species.map((species) => {
     species.name = species.pokemonspeciesnames[0].name
     species.genus = species.pokemonspeciesnames[0].genus
-    species.defaultForm = parseForm(
-      species.pokemons.find((p) => p.is_default).pokemonforms.find((f) => f.is_default),
-      species
-    )
 
     species.family = species.pokemons.map((p) => {
       return {

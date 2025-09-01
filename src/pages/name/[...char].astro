@@ -16,7 +16,9 @@ export const getStaticPaths = async () => {
           return {
             id: p.id,
             name: p.name,
-            defaultForm: p.defaultForm,
+            genus: p.genus,
+            defaultForm: p.family.find((f) => f.isDefault)?.forms.find((f) => f.isDefault) ?? p.family[0].forms[0],
+
             forms: [
               {
                 ...p.family[0].forms[0],
