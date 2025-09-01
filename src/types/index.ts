@@ -31,7 +31,6 @@ export interface Pokemon {
   isMega: boolean
   isBattleOnly: boolean
   isDefault: boolean
-  encounters: string[]
   genus: string
   image: {
     normal?: string | null

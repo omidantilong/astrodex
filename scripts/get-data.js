@@ -40,11 +40,6 @@ const speciesQuery = gql`
           pokemon {
             height
             weight
-            encounters {
-              version {
-                name
-              }
-            }
             pokemonsprites {
               sprites
             }
@@ -135,7 +130,6 @@ function parseForm(form, species) {
     genId: form.pokemonformgenerations[0]?.genId ?? species.genId,
     id: form.id,
     genus,
-    //imageId: image.normal ? basename(image.normal).replace(".png", "") : false,
     isMega: form.isMega,
     isBattleOnly: form.isBattleOnly,
     isDefault: form.isDefault,
@@ -143,7 +137,6 @@ function parseForm(form, species) {
     weight: form.pokemon.weight,
     type,
     typeHash: type.join("-"),
-    encounters: Array.from(new Set(form.pokemon.encounters.map((e) => e.version.name))),
     image,
   }
 }
