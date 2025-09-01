@@ -1,8 +1,11 @@
 import { existsSync } from "node:fs"
 import { mkdir, writeFile } from "node:fs/promises"
 import { basename } from "node:path"
+import { parse } from "yaml"
 
+const PDB_DATA = "https://raw.githubusercontent.com/pokemondb/database/refs/heads/master/data/pokemon-forms.yaml"
 const ENDPOINT = "https://graphql.pokeapi.co/v1beta2"
+let pdb
 
 const gql = String.raw
 
@@ -80,12 +83,12 @@ const typeQuery = gql`
   }
 `
 
-async function getData(query) {
+async function getPokeApiData(query) {
   return await fetch(ENDPOINT, { method: "POST", body: JSON.stringify({ query }) }).then((b) => b.json())
 }
 
 async function getTypes(query) {
-  const typeData = await getData(query)
+  const typeData = await getPokeApiData(query)
   return typeData.data.types
     .map((t) => {
       t.name = t.typenames[0].name
@@ -102,7 +105,14 @@ async function getTypes(query) {
     })
     .filter((t) => t)
 }
+
 function parseForm(form, species) {
+  const pdbData = pdb.find((p) => {
+    if (p.formid === form.slug) return p
+    if (p.formname === form.pokemonformnames[0]?.pokemonName) return p
+    if (p.pokemonid === form.slug) return p
+  })
+
   const artwork = {
     normal: form.pokemon.pokemonsprites[0].sprites.other["official-artwork"].front_default,
     shiny: form.pokemon.pokemonsprites[0].sprites.other["official-artwork"].front_shiny,
@@ -115,12 +125,15 @@ function parseForm(form, species) {
 
   const type = form.pokemon.pokemontypes.map((t) => t.type.name)
 
+  const genus = pdbData?.species ?? species.genus
+
   return {
     slug: form.slug,
     name: form.pokemonformnames[0]?.name ?? species.name,
     pokemonName: form.pokemonformnames[0]?.pokemonName ?? species.name,
     genId: form.pokemonformgenerations[0]?.genId ?? species.genId,
     id: form.id,
+    genus,
     //imageId: image.normal ? basename(image.normal).replace(".png", "") : false,
     isMega: form.isMega,
     isBattleOnly: form.isBattleOnly,
@@ -133,17 +146,24 @@ function parseForm(form, species) {
     image,
   }
 }
+
 async function run() {
   if (!existsSync("./src/data")) await mkdir("./src/data")
   if (!existsSync("./public/data")) await mkdir("./public/data")
 
-  const speciesData = await getData(speciesQuery)
+  const speciesData = await getPokeApiData(speciesQuery)
+
+  pdb = await fetch(PDB_DATA)
+    .then(async (b) => await b.text())
+    .then((t) => t.replaceAll(": -", ":"))
+    .then((t) => parse(t))
+    .then((d) => Object.values(d))
 
   const data = speciesData.data.species.map((species, i) => {
     const default_form = species.pokemons.find((f) => f.isDefault).pokemonforms.find((f) => f.isDefault)
 
     species.name = species.pokemonspeciesnames[0].name
-    species.genus = species.pokemonspeciesnames[0].genus
+    species.genus = species.pokemonspeciesnames[0].genus.replace("Pokémon", "")
 
     species.defaultForm = {
       id: default_form.id,
@@ -163,27 +183,14 @@ async function run() {
     delete species.pokemons
     delete species.pokemonspeciesnames
 
-    // Object.keys(species).forEach((key) => {
-    //   if (key.includes("_")) {
-    //     species[camelcase(key)] = species[key]
-    //     delete species[key]
-    //   }
-    // })
-
     return species
   })
 
   const types = await getTypes(typeQuery)
 
-  // await writeFile("./public/types.json", JSON.stringify(types))
-  // await writeFile("./public/data.json", JSON.stringify(data))
-
+  //await writeFile("./public/data/pdb.json", JSON.stringify(pdb))
   await writeFile("./public/data/types.json", JSON.stringify(types))
   await writeFile("./public/data/data.json", JSON.stringify(data))
-
-  // for await (const s of data) {
-  //   await writeFile(`./public/data/${s.id}.json`, JSON.stringify(s))
-  // }
 }
 
 run().catch((e) => console.error(e))

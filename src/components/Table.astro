@@ -178,8 +178,9 @@ const cols = [
       dialog.dataset.type = form.type[0]
       header.innerHTML = `<h2><span>${name}</span><span>#${id}</span></h2>`
       header.innerHTML += html`<div class="stats">
-        <span class="form-name">${species.genus}</span>${form.name !== species.name && form.name !== defaultForm.name
-          ? `<span class="form-name">${form.name}</span></div>`
+        <span class="form-name">${form.genus} Pokémon</span>${form.name !== species.name &&
+        form.name !== defaultForm.name
+          ? `<span class="form-name align-right">${form.name}</span></div>`
           : ""}
       </div>`
 
