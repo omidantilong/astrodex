@@ -84,7 +84,7 @@ const cols = [
   async function getData(): Promise<Species[] | null> {
     const data =
       localStorage.getItem("astrodex.data") ??
-      (await fetch("/data.json").then(async (b) => {
+      (await fetch("/data/data.json").then(async (b) => {
         const d = await b.text()
         localStorage.setItem("astrodex.data", d)
         return d
