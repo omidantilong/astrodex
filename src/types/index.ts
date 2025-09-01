@@ -3,12 +3,15 @@ export interface Species {
   name: string
   genus: string
   slug: string
-  is_baby: boolean
-  is_legendary: boolean
-  is_mythical: boolean
-  generation_id: number
+  isBaby: boolean
+  isLegendary: boolean
+  isMythical: boolean
+  genId: number
   family: Family[]
-  defaultForm: Pokemon
+  defaultForm: {
+    id: number
+    name: string
+  }
 }
 
 export interface Family {
@@ -40,4 +43,13 @@ export interface PokemonType {
   name: string
 }
 
-export type TableData = { id: number; name: string; genus: string; forms: Pokemon[]; defaultForm: Pokemon }[]
+export type TableData = {
+  id: number
+  name: string
+  genus: string
+  forms: Pokemon[]
+  defaultForm: {
+    id: number
+    name: string
+  }
+}[]

@@ -2,8 +2,8 @@
 import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
-import data from "../../data/data.json"
-import types from "../../data/types.json"
+import data from "../../../public/data/data.json"
+import types from "../../../public/data/types.json"
 
 export const getStaticPaths = async () => {
   const paths = types.map((type) => {

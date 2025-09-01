@@ -35,9 +35,9 @@ const cols = [
   <tbody>
     {
       data.map((pokemon) => {
-        const forms = showForms ? pokemon.forms : [pokemon.defaultForm]
+        const forms = showForms ? pokemon.forms : [pokemon.forms.find((f) => f.id === pokemon.defaultForm.id)]
         return forms.map((form) => {
-          return (
+          return form ? (
             <tr data-id={pokemon.id} data-formid={form.id} data-name={pokemon.name} data-form={pokemon.name}>
               <td data-sort="id" data-value={pokemon.id}>
                 <strong class="pokemon-name">{pokemon.id}</strong>
@@ -63,7 +63,7 @@ const cols = [
                 </ul>
               </td>
             </tr>
-          )
+          ) : null
         })
       })
     }
@@ -79,18 +79,41 @@ const cols = [
   </nav>
 </dialog>
 <script>
+  import type { Pokemon, Species } from "../types"
+
+  async function getData(): Promise<Species[] | null> {
+    const data =
+      localStorage.getItem("astrodex.data") ??
+      (await fetch("/data.json").then(async (b) => {
+        const d = await b.text()
+        localStorage.setItem("astrodex.data", d)
+        return d
+      }))
+
+    return data ? JSON.parse(data) : null
+  }
+
   const dialog = document.querySelector("dialog.lightbox")! satisfies HTMLDialogElement
   const table = document.querySelector("table.list")! satisfies HTMLElement
 
   const header = dialog.querySelector("header")!
   const picture = dialog.querySelector("picture")!
 
-  const state = {
+  const data = await getData()
+
+  const state: {
+    data: Species[]
+    id: number
+    formid: number
+  } = {
+    data: data ?? [],
     id: 0,
     formid: 0,
   }
 
-  table.addEventListener("click", (event) => {
+  const html = String.raw
+
+  table.addEventListener("click", async (event) => {
     if (event.target instanceof HTMLElement) {
       if (event.target.nodeName === "TD") {
         const { id, formid, name } = event.target.parentElement!.dataset
@@ -98,7 +121,7 @@ const cols = [
           state.id = +id
           state.formid = +formid
           const src = event.target.parentNode!.querySelector("img")!.src
-          updateDialog(state.id, state.formid, name, src)
+          await updateDialog(state.id, state.formid, name, src)
           dialog.showModal()
         }
       } else if (event.target.nodeName === "TH") {
@@ -109,20 +132,20 @@ const cols = [
       }
     }
   })
-  dialog.addEventListener("keydown", (event) => {
+  dialog.addEventListener("keydown", async (event) => {
     const action = event.key === "ArrowRight" ? "next" : event.key === "ArrowLeft" ? "prev" : false
-    action && getSibling(action)
+    action && (await getSibling(action))
   })
-  dialog.addEventListener("click", (event) => {
+  dialog.addEventListener("click", async (event) => {
     if (event.target instanceof HTMLElement) {
       if (event.target.nodeName === "BUTTON") {
         const { action } = event.target.dataset
-        action && getSibling(action)
+        action && (await getSibling(action))
       }
     }
   })
 
-  function getSibling(action: string) {
+  async function getSibling(action: string) {
     const node = document.querySelector(`tr[data-formid="${state.formid}"]`)!
     let target = action === "prev" ? node.previousElementSibling : node.nextElementSibling
 
@@ -133,14 +156,35 @@ const cols = [
       if (id && name && formid) {
         state.formid = +formid
         state.id = +id
-        updateDialog(state.id, state.formid, name, src)
+        await updateDialog(state.id, state.formid, name, src)
       }
     }
   }
 
-  function updateDialog(id: number, formid: number, name: string, src: string) {
-    header.innerHTML = `<h2>${name}</h2><span>#${id}</span>`
-    picture.innerHTML = `<img src="${src}" />`
+  function getDetails(
+    id: number,
+    formid: number
+  ): { species: Species | undefined; form: Pokemon | undefined; defaultForm: Pokemon | undefined } {
+    const species = state.data.find((p) => p.id === id)
+    const form = species && species.family.flatMap((f) => f.forms).find((form) => form.id === formid)
+    const defaultForm = species?.family.find((f) => f.isDefault)?.forms.find((f) => f.isDefault)
+
+    return { species, form, defaultForm }
+  }
+  async function updateDialog(id: number, formid: number, name: string, src: string) {
+    const { species, form, defaultForm } = getDetails(id, formid)
+
+    if (species && form && defaultForm) {
+      dialog.dataset.type = form.type[0]
+      header.innerHTML = `<h2><span>${name}</span><span>#${id}</span></h2>`
+      header.innerHTML += html`<div class="stats">
+        <span class="form-name">${species.genus}</span>${form.name !== species.name && form.name !== defaultForm.name
+          ? `<span class="form-name">${form.name}</span></div>`
+          : ""}
+      </div>`
+
+      picture.innerHTML = `<img src="${src}" />`
+    }
   }
 
   function sortRows(col: string, type: string | undefined, node: HTMLElement) {

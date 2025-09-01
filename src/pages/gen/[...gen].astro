@@ -2,7 +2,7 @@
 import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
-import data from "../../data/data.json"
+import data from "../../../public/data/data.json"
 import { GENS } from "../../../constants"
 
 export const getStaticPaths = async () => {
@@ -11,7 +11,7 @@ export const getStaticPaths = async () => {
     props: {
       gen,
       pokemon: data
-        .filter((p) => p.generation_id === gen)
+        .filter((p) => p.genId === gen)
         .map((p) => {
           return {
             id: p.id,

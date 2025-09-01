@@ -3,7 +3,7 @@ import Page from "../../layouts/Page.astro"
 import Breadcrumb from "../../components/Breadcrumb.astro"
 import Table from "../../components/Table.astro"
 import { CHARS } from "../../../constants"
-import data from "../../data/data.json"
+import data from "../../../public/data/data.json"
 
 export const getStaticPaths = async () => {
   const paths = CHARS.map((char) => ({

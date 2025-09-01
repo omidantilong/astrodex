@@ -11,21 +11,21 @@ const speciesQuery = gql`
     species: pokemonspecies(order_by: { id: asc }) {
       slug: name
       id
-      is_legendary
-      is_baby
-      is_mythical
-      generation_id
+      isLegendary: is_legendary
+      isBaby: is_baby
+      isMythical: is_mythical
+      genId: generation_id
       pokemons {
         slug: name
         height
         weight
-        is_default
+        isDefault: is_default
         pokemonforms {
           slug: name
           id
-          is_mega
-          is_battle_only
-          is_default
+          isMega: is_mega
+          isBattleOnly: is_battle_only
+          isDefault: is_default
           pokemonformnames(where: { language_id: { _eq: 9 } }) {
             name
           }
@@ -116,9 +116,9 @@ function parseForm(form, species) {
     name: form.pokemonformnames[0]?.name ?? species.name,
     id: form.id,
     //imageId: image.normal ? basename(image.normal).replace(".png", "") : false,
-    isMega: form.is_mega,
-    isBattleOnly: form.is_battle_only,
-    isDefault: form.is_default,
+    isMega: form.isMega,
+    isBattleOnly: form.isBattleOnly,
+    isDefault: form.isDefault,
     height: form.pokemon.height,
     weight: form.pokemon.weight,
     type,
@@ -147,7 +147,7 @@ async function run() {
     species.family = species.pokemons.map((p) => {
       return {
         slug: p.slug,
-        isDefault: p.is_default,
+        isDefault: p.isDefault,
         height: p.height,
         weight: p.weight,
         forms: p.pokemonforms.map((form) => parseForm(form, species)),
@@ -157,6 +157,13 @@ async function run() {
     delete species.pokemons
     delete species.pokemonspeciesnames
 
+    // Object.keys(species).forEach((key) => {
+    //   if (key.includes("_")) {
+    //     species[camelcase(key)] = species[key]
+    //     delete species[key]
+    //   }
+    // })
+
     return species
   })
 
@@ -165,8 +172,8 @@ async function run() {
   // await writeFile("./public/types.json", JSON.stringify(types))
   // await writeFile("./public/data.json", JSON.stringify(data))
 
-  await writeFile("./src/data/types.json", JSON.stringify(types))
-  await writeFile("./src/data/data.json", JSON.stringify(data))
+  await writeFile("./public/data/types.json", JSON.stringify(types))
+  await writeFile("./public/data/data.json", JSON.stringify(data))
 
   // for await (const s of data) {
   //   await writeFile(`./public/data/${s.id}.json`, JSON.stringify(s))
