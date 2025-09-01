@@ -145,7 +145,7 @@ const cols = [
     }
   })
 
-  async function getSibling(action: string) {
+  async function getSibling(action: string): Promise<void> {
     const node = document.querySelector(`tr[data-formid="${state.formid}"]`)!
     let target = action === "prev" ? node.previousElementSibling : node.nextElementSibling
 
@@ -171,7 +171,8 @@ const cols = [
 
     return { species, form, defaultForm }
   }
-  async function updateDialog(id: number, formid: number, name: string, src: string) {
+
+  async function updateDialog(id: number, formid: number, name: string, src: string): Promise<void> {
     const { species, form, defaultForm } = getDetails(id, formid)
 
     if (species && form && defaultForm) {
@@ -188,7 +189,7 @@ const cols = [
     }
   }
 
-  function sortRows(col: string, type: string | undefined, node: HTMLElement) {
+  function sortRows(col: string, type: string | undefined, node: HTMLElement): void {
     const dir = node.dataset.dir
     const newDir = !dir || dir === "desc" ? "asc" : "desc"
     const rows = table.querySelectorAll(":scope tbody tr")
