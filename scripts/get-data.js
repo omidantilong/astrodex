@@ -28,6 +28,10 @@ const speciesQuery = gql`
           isDefault: is_default
           pokemonformnames(where: { language_id: { _eq: 9 } }) {
             name
+            pokemonName: pokemon_name
+          }
+          pokemonformgenerations {
+            genId: generation_id
           }
           pokemon {
             height
@@ -114,6 +118,8 @@ function parseForm(form, species) {
   return {
     slug: form.slug,
     name: form.pokemonformnames[0]?.name ?? species.name,
+    pokemonName: form.pokemonformnames[0]?.pokemonName ?? species.name,
+    genId: form.pokemonformgenerations[0]?.genId ?? species.genId,
     id: form.id,
     //imageId: image.normal ? basename(image.normal).replace(".png", "") : false,
     isMega: form.isMega,
