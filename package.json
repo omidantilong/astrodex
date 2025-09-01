@@ -29,7 +29,7 @@
       "npx astro check",
       "npx prettier --write"
     ],
-    "*.{js,ts,mjs,json}": [
+    "*.{js,ts,mjs}": [
       "npx prettier --write"
     ]
   }
