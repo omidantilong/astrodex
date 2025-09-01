@@ -165,7 +165,7 @@ table.list {
       width: 4em;
     }
     &:nth-child(2) {
-      width: max(5rem, 6vw);
+      width: 5rem;
     }
     &:last-child {
       width: 6em;
