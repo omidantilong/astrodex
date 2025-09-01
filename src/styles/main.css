@@ -295,6 +295,19 @@ dialog.lightbox {
       transform: scale(1.1);
     }
   }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transition: background 0.3s ease-out;
+    /* border-bottom: 2px dashed light-dark(#eee, #333); */
+
+    .form-name {
+      font-size: clamp(0.625rem, 3vw, 1rem);
+    }
+  }
+
   h2 {
     margin: 0;
     padding: 1rem 1rem 0 1rem;
@@ -304,23 +317,15 @@ dialog.lightbox {
     display: flex;
     justify-content: space-between;
   }
+
   div.stats {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    gap: 2rem;
     padding: 0 1rem 1rem 1rem;
   }
-  header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    transition: background 0.3s ease-out;
-    /* border-bottom: 2px dashed light-dark(#eee, #333); */
 
-    .form-name {
-      font-size: clamp(0.625rem, 3vw, 1rem);
-    }
-  }
   picture {
     display: flex;
     align-items: center;
@@ -409,4 +414,8 @@ dialog[data-type] header {
 }
 [data-type="fairy"] {
   --bg: #d685ad;
+}
+
+.align-right {
+  text-align: right;
 }
