@@ -40,4 +40,4 @@ export interface PokemonType {
   name: string
 }
 
-export type TableData = { id: number; name: string; forms: Pokemon[]; defaultForm: Pokemon }[]
+export type TableData = { id: number; name: string; genus: string; forms: Pokemon[]; defaultForm: Pokemon }[]
