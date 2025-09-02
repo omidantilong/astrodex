@@ -259,6 +259,9 @@ ul.types {
     border-radius: 100%;
     transform: translateY(1px);
   }
+  figure[data-type] {
+    background: var(--bg);
+  }
   span {
     display: none;
     @media (min-width: 22.5rem) {
@@ -318,6 +321,11 @@ dialog.lightbox {
       opacity: 0;
       transform: scale(1.1);
     }
+  }
+
+  &[data-type] header {
+    /* background: oklch(from var(--bg) calc(l - 0.2) c h); */
+    color: oklch(from var(--bg) calc(l + 0.3) c h);
   }
 
   div.container {
