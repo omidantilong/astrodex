@@ -67,7 +67,7 @@ const { type, pokemon, stats } = Astro.props
   <header class="page-header">
     <h1>{type.name} Pokémon</h1>
     {/*<span class="stats">{stats.pokemon} Species / {stats.pokemon + stats.forms} Pokémon</span>*/}
-    <span class="stats">{stats.pokemon + stats.forms} Pokémon</span>
+    <span class="stats">{stats.pokemon} Pokémon</span>
   </header>
   <Table data={pokemon} sort={{ id: "asc" }} showForms={true} />
 </Page>
