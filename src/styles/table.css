@@ -102,7 +102,7 @@ ul.types {
     transform: translateY(1px);
   }
   figure[data-type] {
-    background: var(--bg);
+    background: var(--swatch);
   }
   span {
     display: none;
