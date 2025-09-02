@@ -71,6 +71,11 @@ const cols = [
 </table>
 
 <dialog closedby="any" class="lightbox">
+  <button autofocus class="close" data-action="close">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke-width="2"></path>
+    </svg>
+  </button>
   <div class="lightbox-container">
     <header></header>
     <picture></picture>
@@ -79,11 +84,6 @@ const cols = [
       <button data-action="next">&rarr;</button>
     </nav>
   </div>
-  <button class="close" data-action="close">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke-width="2"></path>
-    </svg>
-  </button>
 </dialog>
 <script>
   import type { Pokemon, PokemonType, Species } from "../types"
