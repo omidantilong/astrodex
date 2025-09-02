@@ -12,6 +12,15 @@
   }
 }
 
+@keyframes press {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}
+
 @property --ca {
   syntax: "<color>";
   initial-value: #222;
