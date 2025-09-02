@@ -1,0 +1,113 @@
+table.list {
+  width: calc(100% + 2rem);
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0 -1rem 20rem -1rem;
+  font-size: clamp(0.75rem, 3vw, 1rem);
+  thead {
+    position: sticky;
+    backdrop-filter: blur(10px);
+    z-index: 3;
+    top: 0;
+  }
+  thead tr th {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid light-dark(#bbb, #444);
+    text-underline-offset: 2px;
+    &:first-child {
+      white-space: nowrap;
+      width: 4em;
+    }
+    &:nth-child(2) {
+      width: 5rem;
+    }
+    &:last-child {
+      width: 6em;
+      @media (min-width: 22.5rem) {
+        width: 8rem;
+      }
+    }
+    &:after {
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+      display: inline-block;
+      transform: translateY(-1px);
+    }
+
+    &[data-sort]:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    &[data-dir="asc"]:after {
+      content: "\2191";
+    }
+    &[data-dir="desc"]:after {
+      content: "\2193";
+    }
+  }
+
+  tbody tr:hover {
+    background: light-dark(white, #191919);
+    cursor: pointer;
+  }
+
+  tbody tr td {
+    overflow: visible;
+    transition: background 0.1s ease-out;
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid light-dark(#ddd, #333);
+  }
+
+  tbody tr td > * {
+    pointer-events: none;
+  }
+
+  tbody td img {
+    height: 3rem;
+  }
+
+  .pokemon-name {
+    display: block;
+  }
+  .form-name {
+    font-size: 0.75rem;
+    color: #999;
+  }
+}
+
+ul.types {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  @media (min-width: 22.5rem) {
+    flex-direction: column;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  figure {
+    margin: 0;
+    display: inline-block;
+    aspect-ratio: 1 / 1;
+    width: 0.75rem;
+    border-radius: 100%;
+    transform: translateY(1px);
+  }
+  figure[data-type] {
+    background: var(--bg);
+  }
+  span {
+    display: none;
+    @media (min-width: 22.5rem) {
+      display: block;
+    }
+  }
+}
