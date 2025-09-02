@@ -134,8 +134,17 @@ const cols = [
 
       if (action) {
         const button = dialog.querySelector(`button[data-action=${action}]`)! satisfies HTMLElement
+        button.style.animation = "press 0.2s ease-out forwards"
         button.focus()
         await getSibling(action)
+      }
+    })
+
+    dialog.addEventListener("keyup", (event) => {
+      const action = event.key === "ArrowRight" ? "next" : event.key === "ArrowLeft" ? "prev" : false
+      if (action) {
+        const button = dialog.querySelector(`button[data-action=${action}]`)! satisfies HTMLElement
+        button.style.animation = "press 0.2s ease-out reverse"
       }
     })
 
