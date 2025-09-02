@@ -124,7 +124,7 @@ dialog.lightbox {
 
 html:has(dialog[open]) {
   body {
-    overflow: hidden;
+    overflow: hidden !important;
     position: relative;
   }
   ::backdrop {
