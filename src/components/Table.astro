@@ -152,7 +152,12 @@ const cols = [
   })
   dialog.addEventListener("keydown", async (event) => {
     const action = event.key === "ArrowRight" ? "next" : event.key === "ArrowLeft" ? "prev" : false
-    action && (await getSibling(action))
+
+    if (action) {
+      const button = dialog.querySelector(`button[data-action=${action}]`)! satisfies HTMLElement
+      button.focus()
+      await getSibling(action)
+    }
   })
   dialog.addEventListener("click", async (event) => {
     if (event.target instanceof HTMLElement) {
