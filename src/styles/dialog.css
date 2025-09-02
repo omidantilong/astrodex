@@ -4,18 +4,16 @@ dialog.lightbox {
   outline: 0;
   opacity: 0;
   border: 0;
-  overflow-x: hidden;
+  overflow: visible;
   padding: 6px;
   background-image: linear-gradient(45deg, var(--cb), var(--ca));
   transform: scale(1.1);
+  width: fit-content;
+  max-width: calc(100% - 3rem);
   transition:
     all 0.2s ease-out,
     --cb 0.5s,
     --ca 0.5s;
-
-  @media (min-width: 37.5rem) {
-    padding: 12px;
-  }
 
   &[open] {
     opacity: 1;
@@ -31,7 +29,7 @@ dialog.lightbox {
     color: light-dark(oklch(from var(--swatch) calc(l - 0.2) c h), oklch(from var(--swatch) calc(l + 0.3) c h));
   }
 
-  div.container {
+  div.lightbox-container {
     border-radius: 6px;
     overflow: hidden;
     background-color: light-dark(#eee, #222);
@@ -89,10 +87,46 @@ dialog.lightbox {
       color: white;
     }
   }
+
+  button.close {
+    position: absolute;
+    top: calc(-1rem + 4px);
+    right: calc(-1rem + 4px);
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    width: 2rem;
+    overflow: hidden;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--swatch);
+    transition: border 0.5s ease-out;
+    cursor: pointer;
+    transition:
+      border 0.5s ease-out,
+      transform 0.2s ease-out;
+    &:active {
+      transform: scale(0.9);
+    }
+    > svg {
+      width: 24px;
+      height: 24px;
+      stroke: #fff;
+      pointer-events: none;
+    }
+  }
 }
 
-body:has(dialog[open]) {
-  overflow: hidden !important;
+html:has(dialog[open]) {
+  body {
+    overflow: hidden;
+    position: relative;
+  }
   ::backdrop {
     animation: fade 0.2s ease-out forwards;
     background: rgba(0, 0, 0, 0.75);

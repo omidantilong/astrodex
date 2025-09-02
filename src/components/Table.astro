@@ -71,7 +71,7 @@ const cols = [
 </table>
 
 <dialog closedby="any" class="lightbox">
-  <div class="container">
+  <div class="lightbox-container">
     <header></header>
     <picture></picture>
     <nav>
@@ -79,10 +79,80 @@ const cols = [
       <button data-action="next">&rarr;</button>
     </nav>
   </div>
+  <button class="close" data-action="close">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke-width="2"></path>
+    </svg>
+  </button>
 </dialog>
 <script>
   import type { Pokemon, PokemonType, Species } from "../types"
   import { COLORS } from "../../constants"
+
+  const html = String.raw
+
+  const dialog = document.querySelector("dialog.lightbox")! satisfies HTMLDialogElement
+  const table = document.querySelector("table.list")! satisfies HTMLElement
+  const header = dialog.querySelector("header")! satisfies HTMLElement
+  const picture = dialog.querySelector("picture")! satisfies HTMLElement
+
+  const state: {
+    data: Species[]
+    id: number
+    formid: number
+  } = {
+    data: (await getData()) ?? [],
+    id: 0,
+    formid: 0,
+  }
+
+  attach()
+
+  function attach() {
+    table.addEventListener("click", async (event) => {
+      if (event.target instanceof HTMLElement) {
+        if (event.target.nodeName === "TD") {
+          const { id, formid, name } = event.target.parentElement!.dataset
+          if (id && formid && name) {
+            state.id = +id
+            state.formid = +formid
+            const src = event.target.parentNode!.querySelector("img")!.src
+            await updateDialog(state.id, state.formid, name, src)
+            dialog.showModal()
+          }
+        } else if (event.target.nodeName === "TH") {
+          const { sort, type } = event.target.dataset
+          if (sort) {
+            sortRows(sort, type, event.target)
+          }
+        }
+      }
+    })
+
+    dialog.addEventListener("keydown", async (event) => {
+      const action = event.key === "ArrowRight" ? "next" : event.key === "ArrowLeft" ? "prev" : false
+
+      if (action) {
+        const button = dialog.querySelector(`button[data-action=${action}]`)! satisfies HTMLElement
+        button.focus()
+        await getSibling(action)
+      }
+    })
+
+    dialog.addEventListener("click", async (event) => {
+      if (event.target instanceof HTMLElement) {
+        if (event.target.nodeName === "BUTTON") {
+          const { action } = event.target.dataset
+          console.log(action)
+          if (action === "close") {
+            dialog.close()
+          } else {
+            action && (await getSibling(action))
+          }
+        }
+      }
+    })
+  }
 
   async function getKeys(): Promise<{ remoteKey: string; localKey: string; isStale: boolean }> {
     const remoteKey = await fetch("/meta.json")
@@ -111,62 +181,6 @@ const cols = [
       return JSON.parse(localStorage.getItem("astrodex.data") ?? "")
     }
   }
-
-  const dialog = document.querySelector("dialog.lightbox")! satisfies HTMLDialogElement
-  const table = document.querySelector("table.list")! satisfies HTMLElement
-  const header = dialog.querySelector("header")! satisfies HTMLElement
-  const picture = dialog.querySelector("picture")! satisfies HTMLElement
-
-  const data = await getData()
-
-  const state: {
-    data: Species[]
-    id: number
-    formid: number
-  } = {
-    data: data ?? [],
-    id: 0,
-    formid: 0,
-  }
-
-  const html = String.raw
-
-  table.addEventListener("click", async (event) => {
-    if (event.target instanceof HTMLElement) {
-      if (event.target.nodeName === "TD") {
-        const { id, formid, name } = event.target.parentElement!.dataset
-        if (id && formid && name) {
-          state.id = +id
-          state.formid = +formid
-          const src = event.target.parentNode!.querySelector("img")!.src
-          await updateDialog(state.id, state.formid, name, src)
-          dialog.showModal()
-        }
-      } else if (event.target.nodeName === "TH") {
-        const { sort, type } = event.target.dataset
-        if (sort) {
-          sortRows(sort, type, event.target)
-        }
-      }
-    }
-  })
-  dialog.addEventListener("keydown", async (event) => {
-    const action = event.key === "ArrowRight" ? "next" : event.key === "ArrowLeft" ? "prev" : false
-
-    if (action) {
-      const button = dialog.querySelector(`button[data-action=${action}]`)! satisfies HTMLElement
-      button.focus()
-      await getSibling(action)
-    }
-  })
-  dialog.addEventListener("click", async (event) => {
-    if (event.target instanceof HTMLElement) {
-      if (event.target.nodeName === "BUTTON") {
-        const { action } = event.target.dataset
-        action && (await getSibling(action))
-      }
-    }
-  })
 
   async function getSibling(action: string): Promise<void> {
     const node = document.querySelector(`tr[data-formid="${state.formid}"]`)!
