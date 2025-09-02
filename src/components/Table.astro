@@ -175,7 +175,6 @@ const cols = [
     const { remoteKey, isStale } = await getKeys()
 
     if (isStale || !localStorage.hasOwnProperty("astrodex.data")) {
-      console.log("loading fresh data")
       const data = await fetch("/data/data.json", { cache: "no-cache" }).then(async (b) => {
         const d = await b.text()
         localStorage.setItem("astrodex.data", d)
@@ -184,7 +183,6 @@ const cols = [
       })
       return JSON.parse(data)
     } else {
-      console.log("using cached data")
       return JSON.parse(localStorage.getItem("astrodex.data") ?? "")
     }
   }
