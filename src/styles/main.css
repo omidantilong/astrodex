@@ -329,10 +329,11 @@ dialog.lightbox {
   }
 
   div.container {
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: hidden;
     background: #222;
   }
+
   header {
     display: flex;
     flex-direction: column;
@@ -385,15 +386,6 @@ dialog.lightbox {
       color: white;
     }
   }
-}
-
-figure[data-type] {
-  background: var(--bg);
-}
-
-dialog[data-type] header {
-  /* background: oklch(from var(--bg) calc(l - 0.2) c h); */
-  color: oklch(from var(--bg) calc(l + 0.3) c h);
 }
 
 .align-right {
