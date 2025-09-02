@@ -203,7 +203,7 @@ const cols = [
       const [ta, tb] = form.type as [PokemonType, PokemonType] // TODO use PokemonType throughout
       const [ca, cb] = [COLOURS[ta], COLOURS[tb ?? ta]]
 
-      dialog.style.backgroundImage = `linear-gradient(45deg, ${cb}, ${ca})`
+      dialog.style = `--cb: ${cb}; --ca: ${ca}`
       header.innerHTML = `<h2><span>${name}</span><span>#${id}</span></h2>`
       header.innerHTML += html`<div class="stats">
         <span class="form-name">${form.genus} Pokémon</span>${form.name !== species.name &&

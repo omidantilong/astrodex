@@ -9,6 +9,18 @@
   }
 }
 
+@property --ca {
+  syntax: "<color>";
+  initial-value: #222;
+  inherits: false;
+}
+
+@property --cb {
+  syntax: "<color>";
+  initial-value: #222;
+  inherits: false;
+}
+
 :root {
   --color-yellow: #ffcb05;
   --color-blue: #3d7dca;
@@ -283,12 +295,22 @@ dialog.lightbox {
   border-radius: 12px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
   outline: 0;
-  transition: background 0.5s ease-out;
   opacity: 0;
   border: 0;
   overflow-x: hidden;
   padding: 6px;
   background-color: light-dark(#eee, #222);
+  background-image: linear-gradient(45deg, var(--cb), var(--ca));
+  transform: scale(1.1);
+  transition:
+    all 0.2s ease-out,
+    --cb 0.5s,
+    --ca 0.5s;
+
+  @media (min-width: 37.5rem) {
+    padding: 12px;
+  }
+
   &[open] {
     opacity: 1;
     transform: none;
@@ -307,8 +329,7 @@ dialog.lightbox {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    transition: background 0.3s ease-out;
-    /* border-bottom: 2px dashed light-dark(#eee, #333); */
+    transition: color 0.25s ease-out;
     .form-name {
       font-size: clamp(0.625rem, 3vw, 1rem);
     }
@@ -361,10 +382,12 @@ dialog.lightbox {
 figure[data-type] {
   background: var(--bg);
 }
+
 dialog[data-type] header {
   /* background: oklch(from var(--bg) calc(l - 0.2) c h); */
   color: oklch(from var(--bg) calc(l + 0.3) c h);
 }
+
 .align-right {
   text-align: right;
 }
