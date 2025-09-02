@@ -71,15 +71,18 @@ const cols = [
 </table>
 
 <dialog closedby="any" class="lightbox">
-  <header></header>
-  <picture></picture>
-  <nav>
-    <button data-action="prev">&larr;</button>
-    <button data-action="next">&rarr;</button>
-  </nav>
+  <div class="container">
+    <header></header>
+    <picture></picture>
+    <nav>
+      <button data-action="prev">&larr;</button>
+      <button data-action="next">&rarr;</button>
+    </nav>
+  </div>
 </dialog>
 <script>
-  import type { Pokemon, Species } from "../types"
+  import type { Pokemon, PokemonType, Species } from "../types"
+  import { COLOURS } from "../../constants"
 
   async function getKeys(): Promise<{ remoteKey: string; localKey: string; isStale: boolean }> {
     const remoteKey = await fetch("/meta.json")
@@ -111,9 +114,8 @@ const cols = [
 
   const dialog = document.querySelector("dialog.lightbox")! satisfies HTMLDialogElement
   const table = document.querySelector("table.list")! satisfies HTMLElement
-
-  const header = dialog.querySelector("header")!
-  const picture = dialog.querySelector("picture")!
+  const header = dialog.querySelector("header")! satisfies HTMLElement
+  const picture = dialog.querySelector("picture")! satisfies HTMLElement
 
   const data = await getData()
 
@@ -193,6 +195,10 @@ const cols = [
 
     if (species && form && defaultForm) {
       dialog.dataset.type = form.type[0]
+      const [ta, tb] = form.type as [PokemonType, PokemonType] // TODO use PokemonType throughout
+      const [ca, cb] = [COLOURS[ta], COLOURS[tb ?? ta]]
+
+      dialog.style.backgroundImage = `linear-gradient(45deg, ${cb}, ${ca})`
       header.innerHTML = `<h2><span>${name}</span><span>#${id}</span></h2>`
       header.innerHTML += html`<div class="stats">
         <span class="form-name">${form.genus} Pokémon</span>${form.name !== species.name &&

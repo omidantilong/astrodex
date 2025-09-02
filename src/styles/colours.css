@@ -1,0 +1,54 @@
+[data-type="normal"] {
+  --bg: #a8a77a;
+}
+[data-type="fire"] {
+  --bg: #ee8130;
+}
+[data-type="water"] {
+  --bg: #6390f0;
+}
+[data-type="electric"] {
+  --bg: #f7d02c;
+}
+[data-type="grass"] {
+  --bg: #7ac74c;
+}
+[data-type="ice"] {
+  --bg: #96d9d6;
+}
+[data-type="fighting"] {
+  --bg: #c22e28;
+}
+[data-type="poison"] {
+  --bg: #a33ea1;
+}
+[data-type="ground"] {
+  --bg: #e2bf65;
+}
+[data-type="flying"] {
+  --bg: #a98ff3;
+}
+[data-type="psychic"] {
+  --bg: #f95587;
+}
+[data-type="bug"] {
+  --bg: #a6b91a;
+}
+[data-type="rock"] {
+  --bg: #b6a136;
+}
+[data-type="ghost"] {
+  --bg: #735797;
+}
+[data-type="dragon"] {
+  --bg: #6f35fc;
+}
+[data-type="dark"] {
+  --bg: #705746;
+}
+[data-type="steel"] {
+  --bg: #b7b7ce;
+}
+[data-type="fairy"] {
+  --bg: #d685ad;
+}

@@ -38,12 +38,29 @@ export interface Pokemon {
   }
 }
 
-export interface PokemonType {
-  slug: string
-  name: string
-}
+export type PokemonType =
+  | "normal"
+  | "fire"
+  | "water"
+  | "electric"
+  | "grass"
+  | "ice"
+  | "fighting"
+  | "poison"
+  | "ground"
+  | "flying"
+  | "psychic"
+  | "bug"
+  | "rock"
+  | "ghost"
+  | "dragon"
+  | "dark"
+  | "steel"
+  | "fairy"
 
-export type TableData = {
+export type TableData = TableRow[]
+
+export type TableRow = {
   id: number
   name: string
   genus: string
@@ -52,4 +69,4 @@ export type TableData = {
     id: number
     name: string
   }
-}[]
+}
