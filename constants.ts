@@ -5,7 +5,7 @@ export const GENS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 export const IMAGE_PATH =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
 
-export const COLOURS: Record<PokemonType, string> = {
+export const COLORS: Record<PokemonType, string> = {
   normal: "#A8A77A",
   fire: "#EE8130",
   water: "#6390F0",

@@ -82,7 +82,7 @@ const cols = [
 </dialog>
 <script>
   import type { Pokemon, PokemonType, Species } from "../types"
-  import { COLOURS } from "../../constants"
+  import { COLORS } from "../../constants"
 
   async function getKeys(): Promise<{ remoteKey: string; localKey: string; isStale: boolean }> {
     const remoteKey = await fetch("/meta.json")
@@ -201,7 +201,7 @@ const cols = [
     if (species && form && defaultForm) {
       dialog.dataset.type = form.type[0]
       const [ta, tb] = form.type as [PokemonType, PokemonType] // TODO use PokemonType throughout
-      const [ca, cb] = [COLOURS[ta], COLOURS[tb ?? ta]]
+      const [ca, cb] = [COLORS[ta], COLORS[tb ?? ta]]
 
       dialog.style = `--cb: ${cb}; --ca: ${ca}`
       header.innerHTML = `<h2><span>${name}</span><span>#${id}</span></h2>`
