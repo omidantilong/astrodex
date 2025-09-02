@@ -154,14 +154,14 @@ async function run() {
     .then((d) => Object.values(d))
 
   const data = speciesData.data.species.map((species, i) => {
-    const default_form = species.pokemons.find((f) => f.isDefault).pokemonforms.find((f) => f.isDefault)
+    const defaultForm = species.pokemons.find((f) => f.isDefault).pokemonforms.find((f) => f.isDefault)
 
     species.name = species.pokemonspeciesnames[0].name
     species.genus = species.pokemonspeciesnames[0].genus.replace("Pokémon", "")
 
     species.defaultForm = {
-      id: default_form.id,
-      name: default_form.pokemonformnames[0]?.name ?? species.name,
+      id: defaultForm.id,
+      name: defaultForm.pokemonformnames[0]?.name ?? species.name,
     }
 
     species.family = species.pokemons.map((p) => {
