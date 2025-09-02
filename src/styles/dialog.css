@@ -26,7 +26,7 @@ dialog.lightbox {
 
   &[data-type] header {
     /* background: oklch(from var(--swatch) calc(l - 0.2) c h); */
-    color: light-dark(oklch(from var(--swatch) calc(l - 0.2) c h), oklch(from var(--swatch) calc(l + 0.3) c h));
+    color: var(--swatch-foreground);
   }
 
   div.lightbox-container {

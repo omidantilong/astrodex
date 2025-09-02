@@ -24,13 +24,13 @@
 @property --ca {
   syntax: "<color>";
   initial-value: #222;
-  inherits: false;
+  inherits: true;
 }
 
 @property --cb {
   syntax: "<color>";
   initial-value: #222;
-  inherits: false;
+  inherits: true;
 }
 
 :root {
@@ -93,6 +93,13 @@ a {
   &:hover {
     color: light-dark(var(--color-navy), white);
   }
+}
+
+[data-type] {
+  --swatch-foreground: light-dark(
+    oklch(from var(--swatch) calc(l - 0.2) c h),
+    oklch(from var(--swatch) calc(l + 0.3) c h)
+  );
 }
 
 .align-right {
