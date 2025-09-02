@@ -6,12 +6,12 @@ dialog.lightbox {
   border: 0;
   overflow: visible;
   padding: 6px;
-  background-image: linear-gradient(45deg, var(--cb), var(--ca));
+  background: linear-gradient(45deg, var(--cb), var(--ca));
   transform: scale(1.1);
   width: fit-content;
   max-width: calc(100% - 3rem);
   transition:
-    all 0.2s ease-out,
+    transform 0.2s ease-out,
     --cb 0.5s,
     --ca 0.5s;
 
