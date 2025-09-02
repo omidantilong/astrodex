@@ -95,11 +95,8 @@ a {
   }
 }
 
-[data-type] {
-  --swatch-foreground: light-dark(
-    oklch(from var(--swatch) calc(l - 0.2) c h),
-    oklch(from var(--swatch) calc(l + 0.3) c h)
-  );
+[data-t1] {
+  --swatch-foreground: light-dark(oklch(from var(--ca) calc(l - 0.2) c h), oklch(from var(--ca) calc(l + 0.3) c h));
 }
 
 .align-right {

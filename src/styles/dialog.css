@@ -24,7 +24,7 @@ dialog.lightbox {
     }
   }
 
-  &[data-type] header {
+  &[data-t1] header {
     /* background: oklch(from var(--swatch) calc(l - 0.2) c h); */
     color: var(--swatch-foreground);
   }
@@ -93,7 +93,7 @@ dialog.lightbox {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid var(--swatch);
+    border: 2px solid var(--ca);
     transition: border 0.5s ease-out;
     cursor: pointer;
     transition:

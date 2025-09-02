@@ -1,54 +1,108 @@
-[data-type="normal"] {
-  --swatch: #a8a77a;
+[data-t1="normal"] {
+  --ca: #a8a77a;
 }
-[data-type="fire"] {
-  --swatch: #ee8130;
+[data-t2="normal"] {
+  --cb: #a8a77a;
 }
-[data-type="water"] {
-  --swatch: #6390f0;
+[data-t1="fire"] {
+  --ca: #ee8130;
 }
-[data-type="electric"] {
-  --swatch: #f7d02c;
+[data-t2="fire"] {
+  --cb: #ee8130;
 }
-[data-type="grass"] {
-  --swatch: #7ac74c;
+[data-t1="water"] {
+  --ca: #6390f0;
 }
-[data-type="ice"] {
-  --swatch: #96d9d6;
+[data-t2="water"] {
+  --cb: #6390f0;
 }
-[data-type="fighting"] {
-  --swatch: #c22e28;
+[data-t1="electric"] {
+  --ca: #f7d02c;
 }
-[data-type="poison"] {
-  --swatch: #a33ea1;
+[data-t2="electric"] {
+  --cb: #f7d02c;
 }
-[data-type="ground"] {
-  --swatch: #e2bf65;
+[data-t1="grass"] {
+  --ca: #7ac74c;
 }
-[data-type="flying"] {
-  --swatch: #a98ff3;
+[data-t2="grass"] {
+  --cb: #7ac74c;
 }
-[data-type="psychic"] {
-  --swatch: #f95587;
+[data-t1="ice"] {
+  --ca: #96d9d6;
 }
-[data-type="bug"] {
-  --swatch: #a6b91a;
+[data-t2="ice"] {
+  --cb: #96d9d6;
 }
-[data-type="rock"] {
-  --swatch: #b6a136;
+[data-t1="fighting"] {
+  --ca: #c22e28;
 }
-[data-type="ghost"] {
-  --swatch: #735797;
+[data-t2="fighting"] {
+  --cb: #c22e28;
 }
-[data-type="dragon"] {
-  --swatch: #6f35fc;
+[data-t1="poison"] {
+  --ca: #a33ea1;
 }
-[data-type="dark"] {
-  --swatch: #705746;
+[data-t2="poison"] {
+  --cb: #a33ea1;
 }
-[data-type="steel"] {
-  --swatch: #b7b7ce;
+[data-t1="ground"] {
+  --ca: #e2bf65;
 }
-[data-type="fairy"] {
-  --swatch: #d685ad;
+[data-t2="ground"] {
+  --cb: #e2bf65;
+}
+[data-t1="flying"] {
+  --ca: #a98ff3;
+}
+[data-t2="flying"] {
+  --cb: #a98ff3;
+}
+[data-t1="psychic"] {
+  --ca: #f95587;
+}
+[data-t2="psychic"] {
+  --cb: #f95587;
+}
+[data-t1="bug"] {
+  --ca: #a6b91a;
+}
+[data-t2="bug"] {
+  --cb: #a6b91a;
+}
+[data-t1="rock"] {
+  --ca: #b6a136;
+}
+[data-t2="rock"] {
+  --cb: #b6a136;
+}
+[data-t1="ghost"] {
+  --ca: #735797;
+}
+[data-t2="ghost"] {
+  --cb: #735797;
+}
+[data-t1="dragon"] {
+  --ca: #6f35fc;
+}
+[data-t2="dragon"] {
+  --cb: #6f35fc;
+}
+[data-t1="dark"] {
+  --ca: #705746;
+}
+[data-t2="dark"] {
+  --cb: #705746;
+}
+[data-t1="steel"] {
+  --ca: #b7b7ce;
+}
+[data-t2="steel"] {
+  --cb: #b7b7ce;
+}
+[data-t1="fairy"] {
+  --ca: #d685ad;
+}
+[data-t2="fairy"] {
+  --cb: #d685ad;
 }

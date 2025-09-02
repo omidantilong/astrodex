@@ -56,7 +56,7 @@ const cols = [
                 <ul class="types">
                   {form.type.map((t) => (
                     <li>
-                      <figure data-type={t.toLowerCase()} />
+                      <figure data-t1={t.toLowerCase()} />
                       <span>{t}</span>
                     </li>
                   ))}
@@ -222,11 +222,9 @@ const cols = [
     const { species, form, defaultForm } = getDetails(id, formid)
 
     if (species && form && defaultForm) {
-      dialog.dataset.type = form.type[0]
-      const [ta, tb] = form.type as [PokemonType, PokemonType] // TODO use PokemonType throughout
-      const [ca, cb] = [COLORS[ta], COLORS[tb ?? ta]]
+      dialog.dataset.t1 = form.type[0]
+      dialog.dataset.t2 = form.type[1] ?? form.type[0]
 
-      dialog.style = `--cb: ${cb}; --ca: ${ca}`
       header.innerHTML = `<h2><span>${name}</span><span>#${id}</span></h2>`
       header.innerHTML += html`<div class="stats">
         <span class="form-name">${form.genus} Pokémon</span>${form.name !== species.name &&

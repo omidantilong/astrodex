@@ -7,7 +7,7 @@ async function run() {
     "./src/styles/colors.css",
     await format(
       Object.entries(COLORS)
-        .map(([t, c]) => `[data-type="${t}"] { --swatch: ${c} }`)
+        .map(([t, c]) => `[data-t1="${t}"] { --ca: ${c} } [data-t2="${t}"] { --cb: ${c}}`)
         .join(""),
       { parser: "css" }
     )

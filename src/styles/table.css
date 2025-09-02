@@ -101,8 +101,8 @@ ul.types {
     border-radius: 100%;
     transform: translateY(1px);
   }
-  figure[data-type] {
-    background: var(--swatch);
+  figure[data-t1] {
+    background: var(--ca);
   }
   span {
     display: none;
