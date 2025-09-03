@@ -55,9 +55,14 @@ body {
   border: 0;
   padding: 0;
   margin: 0;
-  font-family: var(--font-stack);
   min-width: 320px;
   overflow-x: hidden;
+}
+
+body,
+input,
+button {
+  font-family: var(--font-stack);
 }
 
 body,
