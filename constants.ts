@@ -35,6 +35,6 @@ export const BASE_COLORS: Record<string, string> = {
   brown: "#D89948",
   purple: "#BE7FFF",
   gray: "#BCBCBC",
-  whiet: "#FFFFFF",
+  white: "#FFFFFF",
   pink: "#FF9EC7",
 }
