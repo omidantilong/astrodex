@@ -23,6 +23,7 @@ function attach() {
   table.addEventListener("click", async (event) => {
     if (event.target instanceof HTMLElement) {
       if (event.target.dataset.action === "load") {
+        event.preventDefault()
         const { id, formid } = event.target.dataset
         if (id && formid) {
           state.id = +id
