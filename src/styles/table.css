@@ -86,7 +86,7 @@ table.list {
     padding: 1em 0;
     margin: -1em 0;
     text-decoration: none;
-    color: #eee;
+    color: light-dark(#333, #eee);
     &:hover {
       text-decoration: underline;
     }
