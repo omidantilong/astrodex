@@ -5,7 +5,7 @@ import { parse } from "yaml"
 import { randomUUID } from "node:crypto"
 
 const PDB_DATA = "https://raw.githubusercontent.com/pokemondb/database/refs/heads/master/data/pokemon-forms.yaml"
-const ENDPOINT = "https://graphql.pokeapi.co/v1beta2"
+const POKEAPI_ENDPOINT = "https://graphql.pokeapi.co/v1beta2"
 let pdb
 
 const gql = String.raw
@@ -80,7 +80,7 @@ const typeQuery = gql`
 `
 
 async function getPokeApiData(query) {
-  return await fetch(ENDPOINT, { method: "POST", body: JSON.stringify({ query }) }).then((b) => b.json())
+  return await fetch(POKEAPI_ENDPOINT, { method: "POST", body: JSON.stringify({ query }) }).then((b) => b.json())
 }
 
 async function getTypes(query) {
