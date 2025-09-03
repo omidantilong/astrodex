@@ -16,6 +16,7 @@ table.list {
     text-align: left;
     border-bottom: 1px solid light-dark(#bbb, #444);
     text-underline-offset: 2px;
+    font-size: 1rem;
     &:first-child {
       white-space: nowrap;
       width: 4em;
@@ -36,32 +37,61 @@ table.list {
       transform: translateY(-1px);
     }
 
-    &[data-sort]:hover {
+    button {
+      background: 0;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      display: flex;
+      gap: 0.25rem;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    button > * {
+      pointer-events: none;
+    }
+    button[data-sort]:hover {
       cursor: pointer;
-      text-decoration: underline;
+      span {
+        text-decoration: underline;
+      }
     }
-    &[data-dir="asc"]:after {
+
+    button[data-dir="asc"]:after {
       content: "\2191";
+      text-decoration: none;
+      margin-left: 4px;
     }
-    &[data-dir="desc"]:after {
+    button[data-dir="desc"]:after {
       content: "\2193";
+      text-decoration: none;
+      margin-left: 4px;
     }
   }
 
   tbody tr:hover {
     background: light-dark(white, #191919);
-    cursor: pointer;
   }
 
   tbody tr td {
-    overflow: visible;
+    overflow: hidden;
     transition: background 0.1s ease-out;
     position: relative;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid light-dark(#ddd, #333);
   }
-
-  tbody tr td > * {
+  tbody tr td a[data-action] {
+    height: 100%;
+    display: block;
+    padding: 1em 0;
+    margin: -1em 0;
+    text-decoration: none;
+    color: light-dark(#333, #eee);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  tbody tr td a > span {
     pointer-events: none;
   }
 

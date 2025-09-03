@@ -22,12 +22,13 @@ const cols = [
     <tr>
       {
         cols.map((col) => {
-          const colProps = {
+          const label = <span>{col.label}</span>
+          const buttonProps = {
             "data-sort": col.sort,
             "data-type": col.type,
             "data-dir": (sort && col.sort && sort[col.sort]) ?? undefined,
           }
-          return <th {...colProps}>{col.label}</th>
+          return <th>{col.sort ? <button {...buttonProps}>{label}</button> : label}</th>
         })
       }
     </tr>
@@ -38,7 +39,7 @@ const cols = [
         const forms = showForms ? pokemon.forms : [pokemon.forms.find((f) => f.id === pokemon.defaultForm.id)]
         return forms.map((form) => {
           return form ? (
-            <tr data-id={pokemon.id} data-formid={form.id} data-name={pokemon.name} data-form={pokemon.name}>
+            <tr data-id={pokemon.id} data-formid={form.id}>
               <td data-sort="id" data-value={pokemon.id}>
                 <strong class="pokemon-name">{pokemon.id}</strong>
                 {/* {form.id !== pokemon.id && showForms === true && pokemon.forms.length > 1 && (
@@ -47,10 +48,12 @@ const cols = [
               </td>
               <td>{form.image.normal && <img loading="lazy" src={`${IMAGE_PATH + form.image.normal}.png`} />}</td>
               <td data-sort="name" data-value={pokemon.name}>
-                <span class="pokemon-name">{pokemon.name}</span>
-                {form.name !== pokemon.defaultForm.name &&
-                  form.name !== pokemon.name &&
-                  (showForms === true || pokemon.forms.length > 1) && <span class="form-name">{form.name}</span>}
+                <a data-action="load" href={`#${pokemon.id}`} data-id={pokemon.id} data-formid={form.id}>
+                  <span class="pokemon-name">{pokemon.name}</span>
+                  {form.name !== pokemon.defaultForm.name &&
+                    form.name !== pokemon.name &&
+                    (showForms === true || pokemon.forms.length > 1) && <span class="form-name">{form.name}</span>}
+                </a>
               </td>
               <td data-sort="type">
                 <ul class="types">

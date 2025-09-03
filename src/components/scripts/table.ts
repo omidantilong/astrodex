@@ -1,4 +1,5 @@
 import type { Pokemon, Species } from "../../types"
+import { IMAGE_PATH } from "../../../constants"
 const html = String.raw
 
 const dialog = document.querySelector("dialog.lightbox")! satisfies HTMLDialogElement
@@ -21,16 +22,16 @@ attach()
 function attach() {
   table.addEventListener("click", async (event) => {
     if (event.target instanceof HTMLElement) {
-      if (event.target.nodeName === "TD") {
-        const { id, formid, name } = event.target.parentElement!.dataset
-        if (id && formid && name) {
+      if (event.target.dataset.action === "load") {
+        const { id, formid } = event.target.dataset
+        if (id && formid) {
           state.id = +id
           state.formid = +formid
-          const src = event.target.parentNode!.querySelector("img")!.src
-          await updateDialog(state.id, state.formid, name, src)
+
+          await updateDialog(state.id, state.formid)
           dialog.showModal()
         }
-      } else if (event.target.nodeName === "TH") {
+      } else if (event.target.nodeName === "BUTTON") {
         const { sort, type } = event.target.dataset
         if (sort) {
           sortRows(sort, type, event.target)
@@ -62,7 +63,6 @@ function attach() {
     if (event.target instanceof HTMLElement) {
       if (event.target.nodeName === "BUTTON") {
         const { action } = event.target.dataset
-        console.log(action)
         if (action === "close") {
           dialog.close()
         } else {
@@ -104,13 +104,12 @@ async function getSibling(action: string): Promise<void> {
   let target = action === "prev" ? node.previousElementSibling : node.nextElementSibling
 
   if (target instanceof HTMLElement && target.nodeName === "TR") {
-    const { id, formid, name } = target.dataset
-    const src = target.querySelector("img")!.src
+    const { id, formid } = target.dataset
 
-    if (id && name && formid) {
+    if (id && formid) {
       state.formid = +formid
       state.id = +id
-      await updateDialog(state.id, state.formid, name, src)
+      await updateDialog(state.id, state.formid)
     }
   }
 }
@@ -126,21 +125,21 @@ function getDetails(
   return { species, form, defaultForm }
 }
 
-async function updateDialog(id: number, formid: number, name: string, src: string): Promise<void> {
+async function updateDialog(id: number, formid: number): Promise<void> {
   const { species, form, defaultForm } = getDetails(id, formid)
 
   if (species && form && defaultForm) {
     dialog.dataset.t1 = form.type[0]
     dialog.dataset.t2 = form.type[1] ?? form.type[0]
 
-    header.innerHTML = `<h2><span>${name}</span><span>#${id}</span></h2>`
+    header.innerHTML = `<h2><span>${species.name}</span><span>#${id}</span></h2>`
     header.innerHTML += html`<div class="stats">
       <span class="form-name">${form.genus} Pokémon</span>${form.name !== species.name && form.name !== defaultForm.name
         ? `<span class="form-name align-right">${form.name}</span></div>`
         : ""}
     </div>`
 
-    picture.innerHTML = `<img src="${src}" />`
+    picture.innerHTML = `<img src="${IMAGE_PATH + form.image.normal}.png" />`
   }
 }
 
@@ -163,6 +162,6 @@ function sortRows(col: string, type: string | undefined, node: HTMLElement): voi
     .forEach((tr) => table.querySelector("tbody")!.appendChild(tr))
 
   table
-    .querySelectorAll("thead th")
-    .forEach((th) => (th === node ? th.setAttribute("data-dir", newDir) : th.removeAttribute("data-dir")))
+    .querySelectorAll("thead th button")
+    .forEach((b) => (b === node ? b.setAttribute("data-dir", newDir) : b.removeAttribute("data-dir")))
 }
