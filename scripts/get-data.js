@@ -4,9 +4,11 @@ import { basename } from "node:path"
 import { parse } from "yaml"
 import { randomUUID } from "node:crypto"
 
-const PDB_DATA = "https://raw.githubusercontent.com/pokemondb/database/refs/heads/master/data/pokemon-forms.yaml"
+const POKEMONDB_FORM_DATA_URL =
+  "https://raw.githubusercontent.com/pokemondb/database/refs/heads/master/data/pokemon-forms.yaml"
 const POKEAPI_ENDPOINT = "https://graphql.pokeapi.co/v1beta2"
-let pdb
+
+let pokemondbFormData
 
 const gql = String.raw
 
@@ -103,7 +105,7 @@ async function getTypes(query) {
 }
 
 function parseForm(form, species) {
-  const pdbData = pdb.find((p) => {
+  const pokemondbData = pokemondbFormData.find((p) => {
     if (p.formid === form.slug) return p
     if (p.formname === form.pokemonformnames[0]?.pokemonName) return p
     if (p.pokemonid === form.slug) return p
@@ -121,7 +123,7 @@ function parseForm(form, species) {
 
   const type = form.pokemon.pokemontypes.map((t) => t.type.name)
 
-  const genus = pdbData?.species ?? species.genus
+  const genus = pokemondbData?.species ?? species.genus
 
   return {
     slug: form.slug,
@@ -147,7 +149,7 @@ async function run() {
 
   const speciesData = await getPokeApiData(speciesQuery)
 
-  pdb = await fetch(PDB_DATA)
+  pokemondbFormData = await fetch(POKEMONDB_FORM_DATA_URL)
     .then(async (b) => await b.text())
     .then((t) => t.replaceAll(": -", ":"))
     .then((t) => parse(t))
