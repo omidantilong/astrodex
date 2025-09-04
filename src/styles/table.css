@@ -46,6 +46,7 @@ table.list {
       gap: 0.25rem;
       font-weight: bold;
       font-size: 1rem;
+      color: light-dark(#333, #eee);
     }
     button > * {
       pointer-events: none;
