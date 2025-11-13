@@ -36,7 +36,10 @@ const cols = [
   <tbody>
     {
       data.map((pokemon) => {
-        const forms = showForms ? pokemon.forms : [pokemon.forms.find((f) => f.id === pokemon.defaultForm.id)]
+        const forms = showForms
+          ? pokemon.forms
+          : [pokemon.forms.find((f) => f.id === pokemon.defaultForm.id || f.id === pokemon.id)]
+
         return forms.map((form) => {
           return form ? (
             <tr data-id={pokemon.id} data-formid={form.id}>
